@@ -94,6 +94,25 @@ class MapGenerate:
             print('Shortest distance: ', self.shortest_path[i])
 
 
+    def draw_Line(self):
+        map = distance_mapping.MapDistance()
+        
+        for i in range(len(self.customer_origin)):
+            # Insert the origin, hub and the destination respectively
+            path_lat = [ map.get_Location(self.customer_origin[i]).latitude ,
+                         map.get_Location(self.hub_name[i]).latitude,
+                         map.get_Location(self.customer_destination[i]).latitude
+                         ]
+            path_long = [map.get_Location(self.customer_origin[i]).longitude,
+                        map.get_Location(self.hub_name[i]).longitude,
+                        map.get_Location(self.customer_destination[i]).longitude
+                        ]
+            self.gmap.scatter(path_lat, path_long, 'red',
+                          size=500, marker=False)
+            self.gmap.plot(path_lat, path_long,
+                                      'cornflowerblue', edge_width=2.5)
+            # self.gmap.scatter()
+
     def draw_HTML(self):
         # Create the final map in HTML
         self.gmap.draw('map.html')
@@ -110,6 +129,7 @@ mapGen = MapGenerate()
 
 mapGen.save_Customer(int(input('Enter the number of customers:')))
 mapGen.get_Shortest_Path()
+mapGen.draw_Line()
 mapGen.draw_HTML()
 
 

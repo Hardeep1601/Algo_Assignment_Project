@@ -63,6 +63,12 @@ class MapDistance:
     def get_Location(self, location):
         return Nominatim(user_agent='tutorial').geocode(location)
 
+    def get_Latitude(self, location):
+        return Nominatim(user_agent='tutorial').geocode(location).latitude
+
+    def get_Longitude(self, location):
+        return Nominatim(user_agent='tutorial').geocode(location).longitude
+
     def calc_total_distance(self, start, end, hub_location):
         map = MapDistance()
         # print('Calculating distance ...')
