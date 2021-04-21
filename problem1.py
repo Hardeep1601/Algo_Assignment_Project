@@ -59,7 +59,7 @@ class MapGenerate:
 
 
     def get_Shortest_Path(self):
-        map = test1.MapDistance()
+        map = distance_mapping.MapDistance()
         print('------Suggest least distance for parcel to travel------')
         # Calculate the least distance for parcel to travel for each customer
         for i in range(len(self.customer_origin)):
@@ -102,7 +102,7 @@ class MapGenerate:
 
 # Main Class
 # Draw line and calculate distance of start and end point crossing the hubs
-import test1
+import distance_mapping
 
 
 mapGen = MapGenerate()
