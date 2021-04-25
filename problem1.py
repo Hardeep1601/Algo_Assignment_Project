@@ -111,6 +111,14 @@ class MapGenerate:
                           size=500, marker=False)
             self.gmap.plot(path_lat, path_long,
                                       'cornflowerblue', edge_width=2.5)
+
+            # gmaps API: https://medium.com/future-vision/google-maps-in-python-part-2-393f96196eaf
+            # self.gmap.pl
+            # self.gmap.directions( [int(path_lat[0]), int(path_long[0])], [int(path_lat[2]), int(path_long[2])])
+            # self.gmap.directions(map.get_Location(self.customer_origin[i]), map.get_Location(self.customer_destination[i]))
+            #
+            # self.gmap.paths(map.get_Location(self.customer_origin[i]), map.get_Location(self.customer_destination[i]), mode='car')
+            # self.gmap.directions.Direction(map.get_Location(self.customer_origin[i]), map.get_Location(self.customer_destination[i]), mode='car')
             # self.gmap.scatter()
 
     def draw_HTML(self):
