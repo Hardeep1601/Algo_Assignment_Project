@@ -1,20 +1,18 @@
-# This is a sample Python script.
+from tkinter import *
+def TakeInput():
+    if tb1.get() == tb2.get():
+        print.tb1.get()
+tk=Tk()
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+#Entry 1
+tb1=Entry(tk)
+tb1.pack()
 
+#Entry 2
+tb2=Entry(tk)
+tb2.pack()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-
-# How to clone and create git repository
-# https://pythonfusion.com/pycharm-project-on-github/
+#Button
+b=Button(tk,text="PrintInput",command= TakeInput)
+b.pack()
+tk.mainloop()
