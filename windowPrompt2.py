@@ -4,31 +4,34 @@ from tkinter import *
 class Window:
 
     numOfCustomer = 0
-
-    def storeNum(self):
-        # hold = box.get()
-        print("Test"+int(str())+"...")
+    originArr = []
+    destinationArr = []
 
 
-
-    def inputCustomer_1(self):
+    def inputCustomer(self):
         # Number of customer
 
         first = tk.Tk()
-        # str = 'Customer ' + int.__str__(i + 1) + ' Details'
         first.title("Customer Details")
         tk.Label(first, text='State the number of customers').grid(row=0, column=1)
         tk.Label(first, text="Customer Count: ").grid(row=1)
 
-        # button widget
-        b1 = Button(first, text="Submit", command=self.storeNum()).grid(row=3, column=1, sticky=E)
 
         # type box
         box = tk.Entry(first)
         box.grid(row=1, column=1)
-        hold=box.get()
+
+
+        def saveCustNum():
+            hold=box.get()
+            self.numOfCustomer = hold
+            first.destroy()
+
+        # button widget
+        b1 = Button(first, text="Submit", command=saveCustNum).grid(row=3, column=1, sticky=E)
+
         first.mainloop()
-        # self.numOfCustomer=int(str(box.get()))
+
 
 
         # Get the origin and destination for each customer
@@ -41,16 +44,24 @@ class Window:
             tk.Label(first, text="Origin: ").grid(row=1)
             tk.Label(first, text="Destination: ").grid(row=2)
 
-            # button widget
-            b1 = Button(first, text="Submit").grid(row=3, column=1,sticky = E)
 
-            e = tk.Entry(first)
-            en = tk.Entry(first)
-            e.grid(row=1, column=1)
-            en.grid(row=2, column=1)
+            origin = tk.Entry(first)
+            dest = tk.Entry(first)
+            origin.grid(row=1, column=1)
+            dest.grid(row=2, column=1)
+
+            def saveCustDetail():
+                self.originArr.append(origin.get())
+                self.destinationArr.append(dest.get())
+                first.destroy()
+
+            # button widget
+            b1 = Button(first, text="Submit", command=saveCustDetail).grid(row=3, column=1,sticky = E)
             first.mainloop()
 
 
+    # Create output window for program
+    def ouputWindow(self):
         root = tk.Tk()
         # Create frame
         frame = Frame(root, width=300, height=300)
@@ -61,26 +72,24 @@ class Window:
         # canvas1 = tk.Canvas(root, width = 400, height = 600,  relief = 'raised')
         canvas1.pack()
 
-
-        root.title("Customer Input")
-        label1 = tk.Label(root, text='Calculate the Square Root')
+        # Set title for the window
+        root.title("Customer Details")
+        label1 = tk.Label(root, text='Customer Delivery Details')
         label1.config(font=('helvetica', 14))
-        canvas1.create_window(200, 25, window=label1)
-        label2 = tk.Label(root, text='Type your Number:')
-        button1 = tk.Button(text='Get the Square Root', command='storeNum()', bg='brown', fg='white',
-                                font=('helvetica', 9, 'bold'))
-        canvas1.create_window(900, 500, window=button1)
+        canvas1.create_window(300, 25, window=label1)
+
+        # Customer Details Output lines
+        # Type here in the 'detais'
+        details = tk.Label(root, text='The Square Root of ' + ' is:', font=('helvetica', 10))
+        canvas1.create_window(300, 100, window=details)
+
         canvas1.config(width=600, height=600)
         root.mainloop()
 
 
 
-    def run(self):
-        self.root.mainloop()
+# Main method
 
 prompt = Window()
-print(prompt.numOfCustomer)
-
-prompt.storeNum()
-print(prompt.numOfCustomer)
-prompt.inputCustomer_1()
+# prompt.inputCustomer()
+prompt.ouputWindow()
