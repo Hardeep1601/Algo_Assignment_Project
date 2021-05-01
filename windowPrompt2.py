@@ -124,9 +124,6 @@ class Window:
         root.mainloop()
 
     def openHTML(self):
-        # file = filedialog.askopenfilename(initialdir="/map.html")
-        # label = Label(root, text=file).pack()
-        # htmlFile =
         return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 
