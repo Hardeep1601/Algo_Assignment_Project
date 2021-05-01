@@ -1,5 +1,8 @@
+import os
 import tkinter as tk
 from tkinter import *
+from tkinter import filedialog
+
 
 class Window:
 
@@ -66,7 +69,7 @@ class Window:
         # Create frame
         frame = Frame(root, width=300, height=300)
         frame.pack(expand=True, fill=BOTH)  # .grid(row=0,column=0)
-        canvas1 = Canvas(frame, bg='#FFFFFF', width=300, height=300, scrollregion=(0, 0, 500, 500))
+        canvas1 = Canvas(frame, bg='#FFFFFF', width=300, height=300, scrollregion=(0, 0, 3000, 3000))
 
         # Create canvas
         # canvas1 = tk.Canvas(root, width = 400, height = 600,  relief = 'raised')
@@ -74,22 +77,65 @@ class Window:
 
         # Set title for the window
         root.title("Customer Details")
-        label1 = tk.Label(root, text='Customer Delivery Details')
+        label1 = tk.Label(root, text='Customer Delivery Details\n---------------------------------------------------------------')
         label1.config(font=('helvetica', 14))
         canvas1.create_window(300, 25, window=label1)
 
         # Customer Details Output lines
-        # Type here in the 'detais'
-        details = tk.Label(root, text='The Square Root of ' + ' is:', font=('helvetica', 10))
-        canvas1.create_window(300, 100, window=details)
+        for i in range(int(self.numOfCustomer)):
+            bHeight = 80 + (i * 80)
+            custStr = 'Customer %d' % (i+1)
+
+            # Customer number
+            custLabel = tk.Label(root, text=(custStr+' : '))
+            custLabel.config(font=('helvetica', 12))
+            canvas1.create_window(100, bHeight, window=custLabel)
+
+            # Show DISTANCE for each customer
+            strDistance = '20.00 km'
+            distLabel = tk.Label(root, text=strDistance)
+            distLabel.config(font=('helvetica', 12))
+            canvas1.create_window(200, bHeight, window=distLabel)
+
+
+            # Show origin tp destination POINTS
+            # Get the Origin and destination
+            pointsStr = '%s  ---->  %s' % (self.originArr[i], self.destinationArr[i])
+            pointsLabel = tk.Label(root, text=pointsStr)
+            pointsLabel.config(font=('helvetica', 12))
+            canvas1.create_window(200, bHeight+40, window=pointsLabel)
+
+
+
+            # BUTTON to open file
+            # INSERT the HTML file name for each customer
+            b = Button(root, text=custStr + ' Map', command=self.openHTML)
+            canvas1.create_window(500, bHeight, window=b)
+
+
+        # Vertical bar
+        vbar=Scrollbar(frame,orient=VERTICAL)
+        vbar.pack(side=RIGHT,fill=Y)
+        vbar.config(command=canvas1.yview)
 
         canvas1.config(width=600, height=600)
+        canvas1.config(yscrollcommand=vbar.set)
+        canvas1.pack(side=LEFT,expand=True,fill=BOTH)
         root.mainloop()
 
+    def openHTML(self):
+        # file = filedialog.askopenfilename(initialdir="/map.html")
+        # label = Label(root, text=file).pack()
+        # htmlFile =
+        return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 
-# Main method
+# Main method of PROBLEM 1
 
 prompt = Window()
-# prompt.inputCustomer()
+prompt.inputCustomer()
+
+# Call distance mapping algorithm to get distance and map
+# <---HERE--->
+
 prompt.ouputWindow()
