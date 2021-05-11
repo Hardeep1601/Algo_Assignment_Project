@@ -9,7 +9,7 @@ class Window:
     numOfCustomer = 0
     originArr = []
     destinationArr = []
-
+    htmlFile = []
 
     def inputCustomer(self):
         # Number of customer
@@ -64,7 +64,7 @@ class Window:
 
 
     # Create output window for program
-    def ouputWindow(self):
+    def ouputWindow(self, distanceArr):
         root = tk.Tk()
         # Create frame
         frame = Frame(root, width=300, height=300)
@@ -92,13 +92,13 @@ class Window:
             canvas1.create_window(100, bHeight, window=custLabel)
 
             # Show DISTANCE for each customer
-            strDistance = '20.00 km'
-            distLabel = tk.Label(root, text=strDistance)
+            # strDistance = '20.00 km'
+            distLabel = tk.Label(root, text=distanceArr[i])
             distLabel.config(font=('helvetica', 12))
             canvas1.create_window(200, bHeight, window=distLabel)
 
 
-            # Show origin tp destination POINTS
+            # Show origin to destination POINTS
             # Get the Origin and destination
             pointsStr = '%s  ---->  %s' % (self.originArr[i], self.destinationArr[i])
             pointsLabel = tk.Label(root, text=pointsStr)
@@ -109,7 +109,7 @@ class Window:
 
             # BUTTON to open file
             # INSERT the HTML file name for each customer
-            b = Button(root, text=custStr + ' Map', command=self.openHTML)
+            b = Button(root, text=custStr + ' Map', command=self.openHTML(i))
             canvas1.create_window(500, bHeight, window=b)
 
 
@@ -123,8 +123,15 @@ class Window:
         canvas1.pack(side=LEFT,expand=True,fill=BOTH)
         root.mainloop()
 
-    def openHTML(self):
-        return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
+    def saveFileName(self, fileName):
+        for i in range(len(fileName)):
+            nameStr = r'C:\Users\harde\Documents\Algo Assignment Project\\' + fileName[i]
+            self.htmlFile.append(nameStr)
+
+    def openHTML(self, num):
+        # nameStr = 'C:\Users\harde\Documents\Algo Assignment Project\\' +fileName
+        return os.startfile(self.htmlFile[num])
+        # return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 
 
@@ -132,10 +139,10 @@ class Window:
 
 # Main method of PROBLEM 1
 
-prompt = Window()
-prompt.inputCustomer()
+# prompt = Window()
+# prompt.inputCustomer()
 
 # Call distance mapping algorithm to get distance and map
 # <---HERE--->
-
-prompt.ouputWindow()
+# a = [12, 13, 14]
+# prompt.ouputWindow()
