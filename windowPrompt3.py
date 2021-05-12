@@ -64,58 +64,93 @@ class Window:
 
 
     # Create output window for program
-    def ouputWindow(self, distanceArr):
+    def ouputWindow(self, distanceArr, timeArr, shortestTimeArr):
         root = tk.Tk()
 
         # Adjust size
         root.geometry("800x600")
+        root.title('Customer Delivery Details')
 
-        # Create a dropdown menu
-        # ----------------------------------------
+        # Change the label text
+        def show(*args):
+            getIndex = options.index(clicked.get())
+            shortestIndex = shortestTimeArr[int(getIndex)]
+            print('Test ;', shortestIndex)
+            shortestHold = shortestIndex + getIndex*5
+            labelOrigin.config(text="\nOrigin : " + self.originArr[getIndex])
+            labelDestination.config(text="\nDestination :\t" + self.destinationArr[getIndex])
+            labelTime.config(text="\nTime taken :\t" + timeArr[shortestHold])
+            label2.config(text="\nDistance between 2 points :\t" + distanceArr[shortestHold])
+
 
         # Dropdown menu options
-        # Change the label text
-        def show():
-            labelS.config(text=clicked.get())
-
         options = []
         for i in range(5):
             options.append('Customer ' + str(i + 1))
-        # datatype of menu text
-        clicked = StringVar()
 
-        # initial menu text
-        clicked.set(options[0])
+        optionsFee = []
+        for i in range(5):
+            optionsFee.append('Customer Fee ' + str(i + 1))
+
+        header = Label(root, text="Customer Delivery Details\n\nSelect Customer Number")
+        header.config(font=('Times', 14))
+        header.pack()
 
         # Create Dropdown menu
+        clicked = StringVar(value="Select a hub")
+        clicked.trace("w", show)
         drop = OptionMenu(root, clicked, *options)
         drop.pack()
 
-        # Create button, it will change label text
-        button = Button(root, text="Update Page", command=show).pack()
-
         # Create Label/String to be attached
-        labelS = Label(root, text="\nHello")
-        labelS.pack()
+        label = Label(root, text="\nCalculate distance between 2 points")
+        label.pack()
+        labelOrigin = Label(root, text="\nOrigin : ")
+        labelOrigin.pack()
+        labelDestination = Label(root, text="\nDestination : ")
+        labelDestination.pack()
+        label2 = Label(root, text="\nDistance between 2 points :\t--")
+        label2.pack()
+        labelTime = Label(root, text="\nTime taken :\t--")
+        labelTime.pack()
 
-        # end Dropdown
+        # CREATE HUB DROPDOWN
+        label3 = Label(root, text="\n\nSELCECT CUSTOMER HUB")
+        label3.pack()
+        # Change the label text
 
-        # Create frame
-        # frame = Frame(root, width=300, height=300)
-        # frame.pack(expand=True, fill=BOTH)  # .grid(row=0,column=0)
-        canvas1 = Canvas(drop, bg='#FFFFFF', width=300, height=300, scrollregion=(0, 0, 3000, 3000))
+        # Dropdown menu options
+        optionsHub = [
+            'City-link Express',
+            'Pos Laju',
+            'GDEX',
+            'J&T',
+            'DHL'
+        ]
 
-        # Create canvas
-        canvas1 = tk.Canvas(root, width = 400, height = 600,  relief = 'raised')
-        canvas1.pack()
+        # initial menu text
+        # clicked1.set('Select a hub')
+        def showHub(*args):
+            getIndex = optionsHub.index(clicked1.get())
+            labelHub.config(text="\nDistance between 3 points :\t" + optionsHub[getIndex])
+            labelTime2.config(text="\nTime taken :\t")
 
-        # Set title for the window
-        root.title("Customer Details")
-        label1 = tk.Label(root,
-                          text='Customer Delivery Details\n---------------------------------------------------------------')
-        label1.config(font=('helvetica', 14))
-        # canvas1.create_window(300, 25, window=label1)
-        # End root window declaration
+        clicked1 = StringVar(value="Select a hub")
+        clicked1.trace("w", showHub)
+
+        # Create Dropdown menu
+        drop1 = OptionMenu(root, clicked1, *optionsHub)
+        drop1.pack()
+        labelHub = Label(root, text="\nDistance between 3 points :\t--")
+        labelHub.pack()
+        labelTime2 = Label(root, text="\nTime taken :\t--")
+        labelTime2.pack()
+
+        # Execute tkinter
+        root.mainloop()
+        # End Window Create and Config
+        # ---------------------------------------------------
+        #
 
         # Customer Details Output lines
         for i in range(int(self.numOfCustomer)):
@@ -125,7 +160,7 @@ class Window:
             # Customer number
             custLabel = tk.Label(root, text=(custStr+' : '))
             custLabel.config(font=('helvetica', 12))
-            canvas1.create_window(100, bHeight, window=custLabel)
+            # canvas1.create_window(100, bHeight, window=custLabel)
 
             # Show DISTANCE for each customer
             # strDistance = '20.00 km'
@@ -167,10 +202,10 @@ class Window:
 
 # Main method of PROBLEM 1
 
-prompt = Window()
+# prompt = Window()
 # prompt.inputCustomer()
 
 # Call distance mapping algorithm to get distance and map
 # <---HERE--->
-a = [12, 13, 14]
-prompt.ouputWindow(a)
+# a = [12, 13, 14]
+# prompt.ouputWindow(a)

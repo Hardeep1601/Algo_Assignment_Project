@@ -46,7 +46,8 @@ for i in range(int(w.numOfCustomer)):
 # Problem: only got one customer HTML file cuz of only 1 directory
 # Problem 2: File open straight away after window launches
 w.saveFileName(fileArr)
-w.ouputWindow(shortestArr)
+
+w.ouputWindow(shortestArr, t.getJourneyTime(), t.getShort())
 
 # print(distArr)
 # print(shortestArr)
@@ -62,13 +63,6 @@ w.ouputWindow(shortestArr)
 # print(t.getShort())
 # # returns the file location
 # print(t.getDirectory())
-
-
-
-
-
-
-
 
 
 # a=[2,3,4,5,2]
