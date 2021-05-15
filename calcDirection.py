@@ -47,6 +47,11 @@ class parent:
         des = []
 
     def __init__(self):
+        self.distance = []
+        self.journey_time = []
+        self.num = 0
+        self.gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.639826504389863, 14, apikey=self.apikey)
+        self.gmaps = googlemaps.Client(key='AIzaSyDvwt7Hd1CAesuilqcnLB078V5Qy7UwYeY')
         print('initiate')
 
     def setOrigin(self,ori):
