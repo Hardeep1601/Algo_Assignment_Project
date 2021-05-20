@@ -70,7 +70,7 @@ class Window:
 
 
     # Create output window for program
-    def ouputWindow(self, distanceArr, timeArr, shortestIndex):
+    def ouputWindow(self, distanceArr, timeArr, shortestIndex, distance2point, time2point):
         root = tk.Tk()
 
         # Adjust size
@@ -117,9 +117,9 @@ class Window:
         labelOrigin.pack()
         labelDestination = Label(root, text="\nDestination : " + self.destinationArr[0])
         labelDestination.pack()
-        label2 = Label(root, text="\nDistance between 2 points : " )
+        label2 = Label(root, text="\nDistance between 2 points : " + distance2point)
         label2.pack()
-        labelTime = Label(root, text="\nTime taken :\t--")
+        labelTime = Label(root, text="\nTime taken : " + time2point)
         labelTime.pack()
 
         # CREATE HUB DROPDOWN
@@ -140,8 +140,8 @@ class Window:
         # clicked1.set('Select a hub')
         def showHub(*args):
             getIndex = optionsHub.index(clicked1.get())
-            labelHub.config(text="\nDistance between 3 points : " + distanceArr[getIndex])
-            labelTime2.config(text="\nTime taken : " + timeArr[getIndex])
+            labelHub.config(text="\nDistance between 3 points : " + str(distanceArr[getIndex]) + ' km')
+            labelTime2.config(text="\nTime taken : " + str(timeArr[getIndex]) + ' min')
 
         clicked1 = StringVar(value="Select a hub")
         clicked1.trace("w", showHub)
@@ -153,8 +153,11 @@ class Window:
         labelHub.pack()
         labelTime2 = Label(root, text="\nTime taken :\t--")
         labelTime2.pack()
-        labelFastest = Label(root, text="\nFastest Hub : "+ optionsHub[shortestIndex])
+        labelFastest = Label(root, text="\nFastest Hub : " + optionsHub[shortestIndex])
         labelFastest.pack()
+
+        # INSERT the HTML file name for each customer
+        b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
 
         # Execute tkinter
         root.mainloop()
@@ -194,26 +197,26 @@ class Window:
         #     # canvas1.create_window(500, bHeight, window=b)
 
     # Save HTML to image - use IMGKIT python
-    def htmlToImage(self):
-        path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-        # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-        config = pdfkit.configuration(wkhtmltopdf=bytes(path_wkhtmltopdf, 'utf-8'))
+    # def htmlToImage(self):
+    #     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    #     # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    #     config = pdfkit.configuration(wkhtmltopdf=bytes(path_wkhtmltopdf, 'utf-8'))
+    #
+    #
+    #     fileName = 'cusTest' + str(self.customerID) + '.jpg'
+    #     print(fileName)
+    #     imgkit.from_file(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html', 'cusTest.jpg', config=config)
+    #     # with open('cus1.html') as f:
+    #     #     imgkit.from_file(f, fileName)
 
-
-        fileName = 'cusTest' + str(self.customerID) + '.jpg'
-        print(fileName)
-        imgkit.from_file(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html', 'cusTest.jpg', config=config)
-        # with open('cus1.html') as f:
-        #     imgkit.from_file(f, fileName)
-
-    def saveFileName(self, fileName):
-        for i in range(len(fileName)):
-            nameStr = r'C:\Users\harde\Documents\Algo Assignment Project\\' + fileName[i]
-            self.htmlFile.append(nameStr)
+    # def saveFileName(self, fileName):
+    #     for i in range(len(fileName)):
+    #         nameStr = r'C:\Users\harde\Documents\Algo Assignment Project\\' + fileName[i]
+    #         self.htmlFile.append(nameStr)
 
     def openHTML(self, num):
         # nameStr = 'C:\Users\harde\Documents\Algo Assignment Project\\' +fileName
-        return os.startfile(self.htmlFile[num])
+        return os.startfile('cus'+str(num)+'.html')
         # return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 

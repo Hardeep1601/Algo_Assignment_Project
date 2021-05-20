@@ -55,9 +55,11 @@ class parent:
         print('initiate')
 
     def setOrigin(self,ori):
+        self.ori = ori
         self.origin= self.getGeoCoord(ori)
 
     def setDest(self,des):
+        self.dest = des
         self.des= self.getGeoCoord(des)
         # self.plotMap();
         self.routeInfo()
@@ -127,51 +129,127 @@ class parent:
     def getShort(self):
         return self.short
 
+    # def shortestR(self):
+    #     dup=False
+    #     fastT=self.journey_time[0]
+    #     fastI=0
+    #
+    #     for i in range (1,5,1):
+    #         j=self.journey_time[i]
+    #         if j < fastT:
+    #             fastT=j
+    #             fastI=i
+    #
+    #         elif j==fastT:
+    #             a=self.distance[fastI]
+    #             b=self.distance[i]
+    #             if b<a:
+    #                 fastT=j
+    #                 fastI=i
+    #
+    #
+    #     self.short=fastI
+    #     print('Shortest Hub is : '+self.courier_name[fastI])
+    #     print('The time taken is: '+fastT)
+    #     self.plotMap()
+
+
+
+
+
+
+    # def routeInfo(self):
+    #     # st = ' '.join([str(elem) for elem in self.hub_Coor])
+    #     # print(st)
+    #
+    #     self.hub_Coor=[(3.0319924887507144,101.37344116244806),(3.112924170027219,101.63982650389863),(3.265154613796736,101.68024844550233),(2.9441205329488325,101.7901521759029),(3.2127230893650065,101.57467295692778)]
+    #     for i in range (5):
+    #         directions = self.gmaps.directions(origin=self.origin, waypoints=self.hub_Coor[i], destination=self.des,
+    #                                   mode='driving', optimize_waypoints=True)
+    #         self.distance.append(directions[0]['legs'][0]['distance']['text'])
+    #         self.journey_time.append(directions[0]['legs'][0]['duration']['text'])
+    #
+    #     self.shortestR()
+
+
+# NEW
+
     def shortestR(self):
-        dup=False
-        fastT=self.journey_time[0]
-        fastI=0
+        dup = False
+        fastT = self.journey_time[0]
+        fastI = 0
 
-        for i in range (1,5,1):
-            j=self.journey_time[i]
+        for i in range(1, 5, 1):
+            j = self.journey_time[i]
+            # print(type(j))
             if j < fastT:
-                fastT=j
-                fastI=i
+                fastT = j
+                fastI = i
 
-            elif j==fastT:
-                a=self.distance[fastI]
-                b=self.distance[i]
-                if b<a:
-                    fastT=j
-                    fastI=i
+            elif j == fastT:
+                a = self.distance[fastI]
+                b = self.distance[i]
 
+                if b < a:
+                    fastT = j
+                    fastI = i
 
-        self.short=fastI
-        print('Shortest Hub is : '+self.courier_name[fastI])
-        print('The time taken is: '+fastT)
+        self.short = fastI
+        print('Shortest Hub is : ' + self.courier_name[fastI])
+        print('The time taken is: ' + str(fastT))
         self.plotMap()
 
-
-
-
-
+    def routeDis(self):
+        bass_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='
+        origin = self.ori.replace(' ', '+')
+        des = self.dest.replace(' ', '+')
+        fin_url = bass_url + origin + '&destinations=' + des + '&mode=car&key=' + 'AIzaSyDvwt7Hd1CAesuilqcnLB078V5Qy7UwYeY'
+        response = requests.get(fin_url).json()
+        return (response['rows'][0]['elements'][0]['distance']['text'], response['rows'][0]['elements'][0]['duration']['text'])
 
     def routeInfo(self):
-        # st = ' '.join([str(elem) for elem in self.hub_Coor])
-        # print(st)
 
-        self.hub_Coor=[(3.0319924887507144,101.37344116244806),(3.112924170027219,101.63982650389863),(3.265154613796736,101.68024844550233),(2.9441205329488325,101.7901521759029),(3.2127230893650065,101.57467295692778)]
-        for i in range (5):
-            directions = self.gmaps.directions(origin=self.origin, waypoints=self.hub_Coor[i], destination=self.des,
-                                      mode='driving', optimize_waypoints=True)
-            self.distance.append(directions[0]['legs'][0]['distance']['text'])
-            self.journey_time.append(directions[0]['legs'][0]['duration']['text'])
+        self.hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
+                         (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
+                         (3.2127230893650065, 101.57467295692778)]
+        for i in range(5):
+            directions = self.gmaps.directions(origin=self.origin, destination=self.hub_Coor[i], mode='driving')
+            direc = self.gmaps.directions(origin=self.hub_Coor[i], destination=self.des,
+                                          mode='driving')
+
+            temp = self.process(directions, direc)
+            print(temp)
+            self.distance.append(temp[0])
+            self.journey_time.append(temp[1])
+            # print(self.distance.)
 
         self.shortestR()
 
+    def process(self, a, b):
+        d1 = (a[0]['legs'][0]['distance']['text']).split(' ')
+        d2 = (b[0]['legs'][0]['distance']['text']).split(' ')
+        dis = round(float(d1[0]) + float(d2[0]), 2)
+        t1 = (a[0]['legs'][0]['duration']['text']).split(' ')
+        t2 = (b[0]['legs'][0]['duration']['text']).split(' ')
+        jT = 0;
+        if t1[1] == t2[1]:
+            if len(t1) == 2:
+                jT = int(t1[0]) + int(t2[0])
+            else:
+                jT = int(t1[0]) * 60 + int(t2[0] * 60) + int(t1[2]) + int(t2[2])
 
-    # print(self.distance)
-    # print(self.journey_time)
+        else:
+            if len(t1) != 2:
+                jT = int(t1[0]) * 60 + int(t1[2]) + int(t2[0])
+            else:
+                jT = int(t1[0]) * 60 + int(t1[0]) + int(t2[2])
+
+        return dis, jT
+
+
+
+
+
 
 
 

@@ -1,25 +1,35 @@
-import pdfkit
+import plotly.express as px
 
-from calcDirection import parent
-from windowPrompt3 import Window
+# using the iris dataset
+df = px.data.iris()
 
-# Declaring the main class
-w = Window()
-# w.inputCustomer()
+# plotting the bar chart
+fig = px.bar(df, x="sepal_width", y="sepal_length")
 
-
-import imgkit
-
-path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-# config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-config = pdfkit.configuration(wkhtmltopdf=bytes(path_wkhtmltopdf, 'utf-8'))
-
-# fileName = 'cusTest' + str(self.customerID) + '.jpg'
-# print(fileName)/
-imgkit.from_file(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html', 'cusTest.jpg', config=config)
+# showing the plot
+fig.show()
+# import pdfkit
+#
+# from calcDirection import parent
+# from windowPrompt3 import Window
+#
+# # Declaring the main class
+# w = Window()
+# # w.inputCustomer()
+#
+#
+# import imgkit
+#
+# path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+# # config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+# config = pdfkit.configuration(wkhtmltopdf=bytes(path_wkhtmltopdf, 'utf-8'))
+#
+# # fileName = 'cusTest' + str(self.customerID) + '.jpg'
+# # print(fileName)/
+# imgkit.from_file(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html', 'cusTest.jpg', config=config)
 
 # Used to calculate distance between 2 points
-for i in range(1):
+# for i in range(1):
     # t.setCustNo(1)
     # t.setOrigin(w.originArr[i])
     # t.setDest(w.destinationArr[i])
@@ -31,7 +41,7 @@ for i in range(1):
 
 
     # w.htmlToImage()
-    print("Run html to image")
+    # print("Run html to image")
     # w.ouputWindow(t.getDistance(), t.getJourneyTime(), t.getShort())
 
 # Output window

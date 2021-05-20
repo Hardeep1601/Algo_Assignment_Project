@@ -18,7 +18,7 @@ t = parent()
 
 # Used to calculate distance between 2 points
 for i in range(int(w.numOfCustomer)):
-    t.setCustNo(1)
+    t.setCustNo(w.customerID)
     t.setOrigin(w.originArr[i])
     t.setDest(w.destinationArr[i])
     hold = t.getShort()
@@ -34,7 +34,9 @@ for i in range(int(w.numOfCustomer)):
     print('t.getShort() : ', t.getShort())
     # w.htmlToImage()
     print("Run html to image")
-    w.ouputWindow(t.getDistance(), t.getJourneyTime(), t.getShort())
+    # print('Route distance: ', t.routeDis()[1])
+    w.ouputWindow(t.getDistance(), t.getJourneyTime(), t.getShort(), t.routeDis()[0], t.routeDis()[1])
+    print('test')
     # Both the distance array are the same for 2 different points
     # print(distArr)
     # print(shortestArr)
