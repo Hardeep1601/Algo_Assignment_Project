@@ -22,15 +22,12 @@ class p2:
     positive=[]
     negative=[]
 
+    wordcount = []
+    stopwordscount = []
+
     def __init__(self):
 
         rating=[]
-
-        # urls = [
-        #     'https://www.truckandbusnews.net/latest-news/posts/2018/november/city-link-express-aims-for-fast-delivery-and-customer-satisfaction-with-isuzu/',
-        #     'https://themalaysianreserve.com/2020/05/28/courier-service-a-lifeline-in-time-of-enforced-isolation/',
-        #     'https://www.theedgemarkets.com/article/crossing-borders-and-boundaries',
-        #     ]
 
         # citylink, poslaju, gdex, j&t, dhl
         urls = [
@@ -120,10 +117,6 @@ class p2:
             string = string.lower()
             return string
 
-        # citylink = ['https://www.truckandbusnews.net/latest-news/posts/2018/november/city-link-express-aims-for-fast-delivery-and-customer-satisfaction-with-isuzu/',
-        #     'https://themalaysianreserve.com/2020/05/28/courier-service-a-lifeline-in-time-of-enforced-isolation/',
-        #     'https://www.theedgemarkets.com/article/crossing-borders-and-boundaries']
-
         def scrape(link):
             # positive = 0
             # negative = 0
@@ -138,6 +131,19 @@ class p2:
             for string in news:
                 s = str(string.get_text())
                 newsstring += remove(s)
+
+            # count words in article
+            wordcount = len(newsstring.split())
+            self.wordcount.append(wordcount)
+
+            # count stopwords in article
+            stopcount = 0
+            
+            # sw = [word for word in newsstring if word in stopwords.words()]
+            for word in newsstring.split():
+                if word in stopwords.words():
+                    stopcount += 1
+            self.stopwordscount.append(stopcount)
 
             # delete stopwords and updated text without stopwords
             tokenized_newsstring = word_tokenize(newsstring)
@@ -176,13 +182,6 @@ class p2:
             self.negative.append(count[1])
             rating.append(count)
             
-            # positive += pw[len(pw)-1]
-            # negative += nw[len(nw)-1]
-
-                # return print(totalP), print(totalN)
-
-            
-
         # loop for every url in urls
         for courier in urls:
             for url in courier:
@@ -196,56 +195,12 @@ class p2:
     def getNegative(self):
         return self.negative
 
-# def main():
-#     temp=p2()
-#     pos=temp.getPositive()
-#     neg=temp.getNegative()
+    def getWordcount(self):
+        return self.wordcount
 
-#     totalPositiveCitylink = pos[0] + pos[1] + pos[2]
-#     totalPositivePoslaju = pos[3] + pos[4] + pos[5]
-#     totalPositiveGdex = pos[6] + pos[7] + pos[8]
-#     totalPositiveJnt = pos[9] + pos[10] + pos[11]
-#     totalPositiveDhl = pos[12] + pos[13] + pos[14]
+    def getStopwordscount(self):
+        return self.stopwordscount
 
-#     totalNegativeCitylink = neg[0] + neg[1] + neg[2]
-#     totalNegativePoslaju = neg[3] + neg[4] + neg[5]
-#     totalNegativeGdex = neg[6] + neg[7] + neg[8]
-#     totalNegativeJnt = neg[9] + neg[10] + neg[11]
-#     totalNegativeDhl = neg[12] + neg[13] + neg[14]
-
-#     import plotly.graph_objects as go
-#     couriers=['Citylink', 'Poslaju', 'GDEX', 'J&T', 'DHL']
-
-#     fig = go.Figure(data=[
-#         go.Bar(name='Positive words', x=couriers, y=[totalPositiveCitylink, totalPositivePoslaju, totalPositiveGdex, totalPositiveJnt, totalPositiveDhl]),
-#         go.Bar(name='Negative Words', x=couriers, y=[totalNegativeCitylink, totalNegativePoslaju, totalNegativeGdex, totalNegativeJnt, totalNegativeDhl])
-#     ])
-#     fig.update_layout(barmode='group')
-#     fig.show()
-
-#     ct = totalPositiveCitylink - totalNegativeCitylink
-#     pl = totalPositivePoslaju - totalNegativePoslaju
-#     gd = totalPositiveGdex - totalNegativeGdex
-#     jn = totalPositiveJnt - totalNegativeJnt
-#     dh = totalPositiveDhl - totalNegativeDhl
-
-#     courierlist = [ct, pl, gd, jn, dh]
-#     def findBestSentiment():
-#         if ct > pl and ct > gd and ct > jn and ct > dh:
-#             return print('Citylink has the best sentiment')
-#         elif pl > ct and pl > gd and pl > jn and pl > dh:
-#             return print('Poslaju has the best sentiment')
-#         elif gd > ct and gd > pl and gd > jn and gd > dh:
-#             return print('GDEX has the best sentiment')
-#         elif jn > ct and jn > pl and jn > gd and jn > dh:
-#             return print('JandT has the best sentiment')
-#         elif dh > ct and dh > pl and dh > gd and dh > jn:
-#             return print('DHL has the best sentiment')
-
-#     findBestSentiment()
-
-# if __name__ == '__main__':
-#     main()
 
 
 
