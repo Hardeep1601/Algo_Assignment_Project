@@ -26,8 +26,8 @@ import plotly.graph_objects as go
 couriers=['Citylink', 'Poslaju', 'GDEX', 'J&T', 'DHL']
 
 fig = go.Figure(data=[
-    go.Bar(name='Positive words', x=couriers, y=[wcCitylink, wcPoslaju, wcGdex, wcJnt, wcDhl]),
-    go.Bar(name='Negative Words', x=couriers, y=[swCitylink, swPoslaju, swGdex, swJnt, swDhl])
+    go.Bar(name='Word count', x=couriers, y=[wcCitylink, wcPoslaju, wcGdex, wcJnt, wcDhl]),
+    go.Bar(name='Stopwords count', x=couriers, y=[swCitylink, swPoslaju, swGdex, swJnt, swDhl])
 ])
 # Change the bar mode
 fig.update_layout(barmode='group')
