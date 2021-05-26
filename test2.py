@@ -37,3 +37,11 @@ w = Window()
 # w.inputCustomer()
 w.mainWindow()
 
+# import pyautogui,time
+#
+# f=open('death note.txt','r')
+# time.sleep(3)
+# for word in f:
+#     pyautogui.typewrite(word)
+#
+# print('lol')

@@ -2,9 +2,11 @@ import os
 import tkinter as tk
 from tkinter import *
 from calcDirection import parent
+from PIL import ImageTk, Image
+
 import imgkit
 from tkinter import filedialog
-
+# import main as sentiment
 
 import pdfkit as pdfkit
 
@@ -34,28 +36,52 @@ class Window:
     def mainWindow(self):
         new_window = ''
 
-        def openMain():
-            # global new_window
-            new_window = Toplevel(root)
-            new_window.geometry("250x250")
-            new_window.title("New Window")
-            new_window.resizable(False, False)
-            lbl = Label(new_window, text='I am a new window')
-            lbl.pack()
-            btn2 = Button(new_window, text='Close Me', command=lambda: new_window.destroy())
-            btn2.pack()
-
+        # Insert image
         root = Tk()
+
+        # Create a photoimage object of the image in the path
+        image1 = Image.open("gui_img.jpeg")
+        image1 = image1.resize((500, 500), Image.ANTIALIAS)
+
+        test = ImageTk.PhotoImage(image1)
+
+        label1 = tk.Label(image=test)
+        label1.image = test
+
+        # Position image
+        label1.place(x=0, y=0)
+
+        # img = ImageTk.PhotoImage(Image.open("gui_img.jpeg"))
+        # panel = Label(root, image=img)
+        # panel.pack(side="bottom", fill="both", expand="yes")
+
+        # def openMain():
+        #     # global new_window
+        #     new_window = Toplevel(root)
+        #     new_window.geometry("250x250")
+        #     new_window.title("New Window")
+        #     new_window.resizable(False, False)
+        #     lbl = Label(new_window, text='I am a new window')
+        #     lbl.pack()
+        #     btn2 = Button(new_window, text='Close Me', command=lambda: new_window.destroy())
+        #     btn2.pack()
+
+
         lbl = Label(new_window, text='Customer Delivery App')
         lbl.pack()
         bt = Button(root, text='Enter new customer', command=self.inputCustomer)
         bt.pack(padx=10, pady=10)
         bt = Button(root, text='Distance Details', command=self.ouputDistance)
         bt.pack(padx=10, pady=10)
-        bt = Button(root, text='Sentiment Details', command=openMain)
+        bt = Button(root, text='Start sentiment', command=self.runSentiment)
+        bt.pack(padx=10, pady=10)
+        bt = Button(root, text='Sentiment Details', command=self.outputSentiment)
         bt.pack(padx=10, pady=10)
 
-        Button(root, text='Close Newly Opened Window', command=lambda: new_window.destroy()).pack()
+        # Button(root, text='Close Newly Opened Window', command=lambda: new_window.destroy()).pack()
+
+
+
 
         root.geometry("500x500")
         root.title('Main Window')
@@ -121,6 +147,141 @@ class Window:
 
 
 
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # SENTIMENT ANALYSIS CODE #
+
+    from prob2 import p2
+    from threading import Thread
+
+
+
+    def outputSentiment(self):
+
+        first = tk.Tk()
+        first.title("Sentiment Details")
+
+
+        # Create Label/String to be attached
+        labelID = Label(first, text="\nBest Journey Time ")
+        labelID.pack()
+        label = Label(first, text="\nBest Journey Time ")
+        label.pack()
+        labelOrigin = Label(first, text="\nBest Journey Time ")
+        labelOrigin.pack()
+        labelDestination = Label(first, text="\nBest Journey Time ")
+        labelDestination.pack()
+        label2 = Label(first, text="\nBest Journey Time ")
+        label2.pack()
+        labelTime = Label(first, text="\nBest Journey Time ")
+        labelTime.pack()
+
+
+        # origin = tk.Entry(first)
+        # dest = tk.Entry(first)
+        # origin.grid(row=2, column=1)
+        # dest.grid(row=3, column=1)
+
+
+
+        first.mainloop()
+
+
+    def runSentiment(self):
+        print('Run sentiment class...')
+        self.Thread(target=self.runSentimentCode).start()
+
+
+    def runSentimentCode(self):
+        # import p2 from prob2
+
+        temp = self.p2()
+        pos = temp.getPositive()
+        neg = temp.getNegative()
+
+        wc = temp.getWordcount()
+        sw = temp.getStopwordscount()
+
+        # Graph for wordcount and stopwords count for each courier
+
+        wcCitylink = wc[0] + wc[1] + wc[2]
+        wcPoslaju = wc[3] + wc[4] + wc[5]
+        wcGdex = wc[6] + wc[7] + wc[8]
+        wcJnt = wc[9] + wc[10] + wc[11]
+        wcDhl = wc[12] + wc[13] + wc[14]
+
+        swCitylink = sw[0] + sw[1] + sw[2]
+        swPoslaju = sw[3] + sw[4] + sw[5]
+        swGdex = sw[6] + sw[7] + sw[8]
+        swJnt = sw[9] + sw[10] + sw[11]
+        swDhl = sw[12] + sw[13] + sw[14]
+
+        import plotly.graph_objects as go
+        couriers = ['Citylink', 'Poslaju', 'GDEX', 'J&T', 'DHL']
+
+        fig = go.Figure(data=[
+            go.Bar(name='Word count', x=couriers, y=[wcCitylink, wcPoslaju, wcGdex, wcJnt, wcDhl]),
+            go.Bar(name='Stopwords count', x=couriers, y=[swCitylink, swPoslaju, swGdex, swJnt, swDhl])
+        ])
+        # Change the bar mode
+        fig.update_layout(barmode='group')
+        fig.show()
+
+        # Graph for positive and negative words for each courier
+
+        totalPositiveCitylink = pos[0] + pos[1] + pos[2]
+        totalPositivePoslaju = pos[3] + pos[4] + pos[5]
+        totalPositiveGdex = pos[6] + pos[7] + pos[8]
+        totalPositiveJnt = pos[9] + pos[10] + pos[11]
+        totalPositiveDhl = pos[12] + pos[13] + pos[14]
+
+        totalNegativeCitylink = neg[0] + neg[1] + neg[2]
+        totalNegativePoslaju = neg[3] + neg[4] + neg[5]
+        totalNegativeGdex = neg[6] + neg[7] + neg[8]
+        totalNegativeJnt = neg[9] + neg[10] + neg[11]
+        totalNegativeDhl = neg[12] + neg[13] + neg[14]
+
+        import plotly.graph_objects as go
+        couriers = ['Citylink', 'Poslaju', 'GDEX', 'Ja&T', 'DHL']
+
+        fig = go.Figure(data=[
+            go.Bar(name='Positive words', x=couriers,
+                   y=[totalPositiveCitylink, totalPositivePoslaju, totalPositiveGdex, totalPositiveJnt,
+                      totalPositiveDhl]),
+            go.Bar(name='Negative Words', x=couriers,
+                   y=[totalNegativeCitylink, totalNegativePoslaju, totalNegativeGdex, totalNegativeJnt,
+                      totalNegativeDhl])
+        ])
+        # Change the bar mode
+        fig.update_layout(barmode='group')
+        fig.show()
+
+        ct = totalPositiveCitylink - totalNegativeCitylink
+        pl = totalPositivePoslaju - totalNegativePoslaju
+        gd = totalPositiveGdex - totalNegativeGdex
+        jn = totalPositiveJnt - totalNegativeJnt
+        dh = totalPositiveDhl - totalNegativeDhl
+
+        courierlist = [ct, pl, gd, jn, dh]
+
+        # print(courierlist)
+        def findBestSentiment():
+            if ct > pl and ct > gd and ct > jn and ct > dh:
+                return print('Citylink has the best sentiment')
+            elif pl > ct and pl > gd and pl > jn and pl > dh:
+                return print('Poslaju has the best sentiment')
+            elif gd > ct and gd > pl and gd > jn and gd > dh:
+                return print('GDEX has the best sentiment')
+            elif jn > ct and jn > pl and jn > gd and jn > dh:
+                return print('JandT has the best sentiment')
+            elif dh > ct and dh > pl and dh > gd and dh > jn:
+                return print('DHL has the best sentiment')
+
+        findBestSentiment()
+
+
+
+    # END SENTIMENT CODE #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
 
@@ -200,7 +361,7 @@ class Window:
         labelFastest.pack()
 
         # INSERT the HTML file name for each customer
-        b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
+        b = Button(root, text='Open Map', command=self.openHTML(self.customerID)).grid(row=4, column=1, sticky=E)
 
         # Execute tkinter
         root.mainloop()
