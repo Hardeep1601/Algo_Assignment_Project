@@ -1,5 +1,5 @@
 # import p2 from prob2
-from prob2 import p2
+from prob2_1 import p2
 
 temp=p2()
 pos=temp.getPositive()

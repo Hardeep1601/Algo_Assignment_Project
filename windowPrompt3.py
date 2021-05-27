@@ -1,5 +1,7 @@
+import codecs
 import os
 import tkinter as tk
+import webbrowser
 from tkinter import *
 from calcDirection import parent
 from PIL import ImageTk, Image
@@ -26,9 +28,24 @@ class Window:
     # For door to door
     distance2point = 0
     time2point = 0
+    bestDist = 0
+    bestTime = 0
 
+    optionsHub = [
+        'City-link Express',
+        'Pos Laju',
+        'GDEX',
+        'J&T',
+        'DHL'
+    ]
 
-
+    optionsLocation = [
+        'Port Klang',
+        'Petaling Jaya',
+        'Batu Caves',
+        'Kajang',
+        'Sungai Buloh'
+    ]
 
 
 
@@ -41,7 +58,7 @@ class Window:
 
         # Create a photoimage object of the image in the path
         image1 = Image.open("gui_img.jpeg")
-        image1 = image1.resize((500, 500), Image.ANTIALIAS)
+        image1 = image1.resize((600, 600), Image.ANTIALIAS)
 
         test = ImageTk.PhotoImage(image1)
 
@@ -68,11 +85,14 @@ class Window:
 
 
         lbl = Label(new_window, text='Customer Delivery App')
-        lbl.pack()
+        lbl.pack(padx=10, pady=100)
         bt = Button(root, text='Enter new customer', command=self.inputCustomer)
         bt.pack(padx=10, pady=10)
         bt = Button(root, text='Distance Details', command=self.ouputDistance)
         bt.pack(padx=10, pady=10)
+        # INSERT the HTML file name for each customer
+        # b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
+        # b.pack(padx=10, pady=10)
         bt = Button(root, text='Start sentiment', command=self.runSentiment)
         bt.pack(padx=10, pady=10)
         bt = Button(root, text='Sentiment Details', command=self.outputSentiment)
@@ -83,7 +103,7 @@ class Window:
 
 
 
-        root.geometry("500x500")
+        root.geometry("600x600")
         root.title('Main Window')
         root.mainloop()
 
@@ -93,11 +113,11 @@ class Window:
         first = tk.Tk()
         first.title("Customer Details")
         # tk.Label(first, text='State the ID of customer').grid(row=0, column=1)
-        tk.Label(first, text="Customer ID: ").grid(row=1)
+        tk.Label(first, text="Input details ").grid(row=1, column=1)
 
         # type box
-        box = tk.Entry(first)
-        box.grid(row=1, column=1)
+        # box = tk.Entry(first)
+        # box.grid(row=1, column=1)
 
         # tk.Label(first, text=str).grid(row=0, column=1)
         tk.Label(first, text="Origin: ").grid(row=2)
@@ -112,9 +132,9 @@ class Window:
         # STORE CUSTOMER ID AND FILE INFO
 
         def saveCustNum():
-            hold=box.get()
+            # hold=box.get()
             # self.numOfCustomer = hold
-            self.customerID = hold
+            self.customerID = 1
             self.originArr.append(origin.get())
             self.destinationArr.append(dest.get())
             first.destroy()
@@ -134,8 +154,12 @@ class Window:
             t.setDest(self.destinationArr[0])
             print(t.getJourneyTime())
             print(t.getDistance())
-            print('t.getShort() : ', t.getShort())
-            print("Run html to image")
+            # print('t.getShort() : ', t.getShort())
+            # print("Run html to image")
+            self.bestDist = self.smallestVal(t.getDistance())
+            self.bestTime = self.smallestVal(t.getJourneyTime())
+            # print("Best distance ",self.bestDist)
+            # print("Best time ",self.bestTime)
             self.saveDetails(t.getDistance(), t.getJourneyTime(), t.getShort(), t.routeDis()[0], t.routeDis()[1])
 
 
@@ -150,7 +174,7 @@ class Window:
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     # SENTIMENT ANALYSIS CODE #
 
-    from prob2 import p2
+    from prob2_1 import p2
     from threading import Thread
 
 
@@ -159,21 +183,21 @@ class Window:
 
         first = tk.Tk()
         first.title("Sentiment Details")
-
+        first.geometry("600x600")
 
         # Create Label/String to be attached
-        labelID = Label(first, text="\nBest Journey Time ")
-        labelID.pack()
-        label = Label(first, text="\nBest Journey Time ")
+        labelID = Label(first, text="\nSummary and Recommended Hub For Customer")
+        labelID.pack(pady=10)
+        label = Label(first, text="\nBest Distance : " + str(self.bestDist) + " km")
         label.pack()
-        labelOrigin = Label(first, text="\nBest Journey Time ")
+        labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime) + ' min')
         labelOrigin.pack()
-        labelDestination = Label(first, text="\nBest Journey Time ")
+        labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang')
         labelDestination.pack()
-        label2 = Label(first, text="\nBest Journey Time ")
+        label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>')
         label2.pack()
-        labelTime = Label(first, text="\nBest Journey Time ")
-        labelTime.pack()
+        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text')
+        labelTime.pack(pady=10)
 
 
         # origin = tk.Entry(first)
@@ -284,6 +308,12 @@ class Window:
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 
+    def smallestVal(self, arr):
+        min = arr[0]
+        for i in range(len(arr)):
+            if min > arr[i]:
+                min = arr[i]
+        return min
 
 
     def saveDetails(self, distanceArr, timeArr, shortestIndex, distance2point, time2point):
@@ -297,12 +327,15 @@ class Window:
 
 
 
+
+
+
     # Create output window for program
     def ouputDistance(self):
         root = tk.Tk()
 
         # Adjust size
-        root.geometry("800x600")
+        root.geometry("600x600")
         root.title('Customer Delivery Details')
 
 
@@ -313,8 +346,8 @@ class Window:
 
 
         # Create Label/String to be attached
-        labelID = Label(root, text="\nCustomer ID: "+ self.customerID)
-        labelID.pack()
+        # labelID = Label(root, text="\nCustomer ID: "+ self.customerID)
+        # labelID.pack()
         label = Label(root, text="\nCalculate distance between 2 points")
         label.pack()
         labelOrigin = Label(root, text="\nOrigin : " + self.originArr[0])
@@ -332,18 +365,14 @@ class Window:
         # Change the label text
 
         # Dropdown menu options
-        optionsHub = [
-            'City-link Express',
-            'Pos Laju',
-            'GDEX',
-            'J&T',
-            'DHL'
-        ]
+
 
         # initial menu text
         # clicked1.set('Select a hub')
         def showHub(*args):
-            getIndex = optionsHub.index(clicked1.get())
+            getIndex = self.optionsHub.index(clicked1.get())
+            labelHub1.config(text="\nHub Name : " + str(self.optionsHub[getIndex]))
+            labelHub2.config(text="\nHub Location : " + str(self.optionsLocation[getIndex]))
             labelHub.config(text="\nDistance between 3 points : " + str(self.distanceArr[getIndex]) + ' km')
             labelTime2.config(text="\nTime taken : " + str(self.timeArr[getIndex]) + ' min')
 
@@ -351,27 +380,38 @@ class Window:
         clicked1.trace("w", showHub)
 
         # Create Dropdown menu
-        drop1 = OptionMenu(root, clicked1, *optionsHub)
+        drop1 = OptionMenu(root, clicked1, *self.optionsHub)
         drop1.pack()
+        labelHub1 = Label(root, text="\nHub Name :\t--")
+        labelHub1.pack()
+        labelHub2 = Label(root, text="\nHub Location :\t--")
+        labelHub2.pack()
         labelHub = Label(root, text="\nDistance between 3 points :\t--")
         labelHub.pack()
         labelTime2 = Label(root, text="\nTime taken :\t--")
         labelTime2.pack()
-        labelFastest = Label(root, text="\nFastest Hub : " + optionsHub[self.shortestIndex])
+        labelFastest = Label(root, text="\nFastest Hub : " + self.optionsHub[self.shortestIndex])
         labelFastest.pack()
 
         # INSERT the HTML file name for each customer
-        b = Button(root, text='Open Map', command=self.openHTML(self.customerID)).grid(row=4, column=1, sticky=E)
+        b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
+        # b.pack(pady=5)
 
         # Execute tkinter
         root.mainloop()
 
-
+    import codecs
+    import threading
+    import time
 
     def openHTML(self, num):
         # nameStr = 'C:\Users\harde\Documents\Algo Assignment Project\\' +fileName
-        return os.startfile('cus'+str(num)+'.html')
+        # self.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
+
+        # self.threading.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
+        return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html')
         # return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
+
 
 
 
