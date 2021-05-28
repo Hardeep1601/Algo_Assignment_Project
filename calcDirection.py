@@ -97,7 +97,7 @@ class parent:
 
         dir = 'cus' + str(self.num) + '.html'
         gmap.draw(dir)
-        print("Success")
+        self.allMap()
 
     def allMap(self):
         for i in range(len(self.hub_name)):
@@ -105,6 +105,8 @@ class parent:
             self.gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
             self.dir = 'cus' + str(self.num) + 'all' + '.html'
             self.gmap.draw(self.dir)
+
+        print("Success")
 
     def setHub(self, hub):
         if hub == 'City-link Express':
