@@ -7,10 +7,12 @@ from calcDirection import parent
 from PIL import ImageTk, Image
 
 import imgkit
-from tkinter import filedialog
+from tkinter import filedialog, font
 # import main as sentiment
 
 import pdfkit as pdfkit
+
+from tkinter_custom_button import TkinterCustomButton
 
 
 class Window:
@@ -48,13 +50,18 @@ class Window:
     ]
 
 
-
+    # Font Format
+    # font = ("Century Gothic", 11)
+    # Main menu background color
+    # '#e1b800'
 
     def mainWindow(self):
         new_window = ''
 
         # Insert image
         root = Tk()
+        root.geometry("600x600")
+        root.title('Main Window')
 
         # Create a photoimage object of the image in the path
         image1 = Image.open("gui_img.jpeg")
@@ -68,34 +75,24 @@ class Window:
         # Position image
         label1.place(x=0, y=0)
 
-        # img = ImageTk.PhotoImage(Image.open("gui_img.jpeg"))
-        # panel = Label(root, image=img)
-        # panel.pack(side="bottom", fill="both", expand="yes")
 
-        # def openMain():
-        #     # global new_window
-        #     new_window = Toplevel(root)
-        #     new_window.geometry("250x250")
-        #     new_window.title("New Window")
-        #     new_window.resizable(False, False)
-        #     lbl = Label(new_window, text='I am a new window')
-        #     lbl.pack()
-        #     btn2 = Button(new_window, text='Close Me', command=lambda: new_window.destroy())
-        #     btn2.pack()
+        lbl = Label(new_window, text='Customer Delivery App', font = ("Century Gothic", 15,'bold'), bg='#2874A6',
+                    fg='#ffffff', relief="ridge", width=100, height=5, borderwidth=5)
+        lbl.pack(padx=10, pady=50)
 
 
-        lbl = Label(new_window, text='Customer Delivery App')
-        lbl.pack(padx=10, pady=100)
-        bt = Button(root, text='Enter new customer', command=self.inputCustomer)
+        bt = TkinterCustomButton(text='Enter new customer', corner_radius=5, command=self.inputCustomer)
+        # bt.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         bt.pack(padx=10, pady=10)
-        bt = Button(root, text='Distance Details', command=self.ouputDistance)
+
+        bt = TkinterCustomButton(text='Distance Details', corner_radius=5, command=self.ouputDistance)
         bt.pack(padx=10, pady=10)
         # INSERT the HTML file name for each customer
         # b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
         # b.pack(padx=10, pady=10)
-        bt = Button(root, text='Start sentiment', command=self.runSentiment)
+        bt = TkinterCustomButton(text='Start sentiment code', corner_radius=5, command=self.runSentiment)
         bt.pack(padx=10, pady=10)
-        bt = Button(root, text='Sentiment Details', command=self.outputSentiment)
+        bt = TkinterCustomButton(text='Sentiment Details', corner_radius=5, command=self.outputSentiment)
         bt.pack(padx=10, pady=10)
 
         # Button(root, text='Close Newly Opened Window', command=lambda: new_window.destroy()).pack()
@@ -103,8 +100,7 @@ class Window:
 
 
 
-        root.geometry("600x600")
-        root.title('Main Window')
+
         root.mainloop()
 
 
@@ -112,16 +108,20 @@ class Window:
 
         first = tk.Tk()
         first.title("Customer Details")
-        # tk.Label(first, text='State the ID of customer').grid(row=0, column=1)
-        tk.Label(first, text="Input details ").grid(row=1, column=1)
+        first.config(bg='#e1b800')
+        # buttonFont = font.Font(family='Century Gothic', size=11)
 
+
+        # tk.Label(first, text='State the ID of customer').grid(row=0, column=1)
+        tk.Label(first, text="Input details ", font=("Century Gothic", 11),bg='#2874A6',fg='#ffffff', relief="ridge", width=20, height=1, borderwidth=3 ).grid(row=1, column=1)
+        # first.config(bg='#e1b800')
         # type box
         # box = tk.Entry(first)
         # box.grid(row=1, column=1)
 
         # tk.Label(first, text=str).grid(row=0, column=1)
-        tk.Label(first, text="Origin: ").grid(row=2)
-        tk.Label(first, text="Destination: ").grid(row=3)
+        tk.Label(first, text="Origin: ",bg='#e1b800', font=("Century Gothic", 11) ).grid(row=2)
+        tk.Label(first, text="Destination: ", bg='#e1b800', font=("Century Gothic", 11) ).grid(row=3)
 
         origin = tk.Entry(first)
         dest = tk.Entry(first)
@@ -138,12 +138,6 @@ class Window:
             self.originArr.append(origin.get())
             self.destinationArr.append(dest.get())
             first.destroy()
-
-            ###################
-            # Clear all the array so that the correct values will be displayed
-
-
-
 
 
 
@@ -165,7 +159,7 @@ class Window:
 
 
         # button widget
-        b1 = Button(first, text="Submit", command=saveCustNum).grid(row=4, column=1, sticky=E)
+        b1 = Button(first, text="Submit", command=saveCustNum, bg='#2874A6', fg='#ffffff', font=("Century Gothic", 11) ).grid(row=4, column=1, sticky=E)
 
         first.mainloop()
 
@@ -178,25 +172,27 @@ class Window:
     from threading import Thread
 
 
-
     def outputSentiment(self):
 
         first = tk.Tk()
         first.title("Sentiment Details")
         first.geometry("600x600")
+        first.config(bg='#e1b800')
 
         # Create Label/String to be attached
-        labelID = Label(first, text="\nSummary and Recommended Hub For Customer")
-        labelID.pack(pady=10)
-        label = Label(first, text="\nBest Distance : " + str(self.bestDist) + " km")
+        labelID = Label(first, text="\nSummary and Recommended Hub For Customer", font=("Century Gothic", 14), bg='#2874A6',
+                        fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
+        labelID.pack()
+        label = Label(first, text="\nBest Distance : " + str(self.bestDist) + " km", font=("Century Gothic", 11), bg='#e1b800')
         label.pack()
-        labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime) + ' min')
+        labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime) + ' min', font=("Century Gothic", 11), bg='#e1b800')
         labelOrigin.pack()
-        labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang')
+        labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang', font=("Century Gothic", 11), bg='#e1b800')
         labelDestination.pack()
-        label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>')
+        label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>', font=("Century Gothic", 11), bg='#e1b800')
         label2.pack()
-        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text')
+        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text',
+                          font=("Century Gothic", 11), bg='#e1b800')
         labelTime.pack(pady=10)
 
 
@@ -335,32 +331,31 @@ class Window:
         root = tk.Tk()
 
         # Adjust size
-        root.geometry("600x600")
+        root.geometry("600x680")
         root.title('Customer Delivery Details')
+        root.config(bg='#e1b800')
 
-
-
-        header = Label(root, text="Customer Delivery Details\n")
-        header.config(font=('Times', 14))
-        header.pack()
+        header = Label(root, text="\nCustomer Delivery Details", font=("Century Gothic", 14), bg='#2874A6',
+                        fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
+        header.pack(pady=10)
 
 
         # Create Label/String to be attached
         # labelID = Label(root, text="\nCustomer ID: "+ self.customerID)
         # labelID.pack()
-        label = Label(root, text="\nCalculate distance between 2 points")
+        label = Label(root, text="\nCalculate distance between 2 points", font=("Century Gothic", 11), bg='#e1b800')
         label.pack()
-        labelOrigin = Label(root, text="\nOrigin : " + self.originArr[0])
+        labelOrigin = Label(root, text="\nOrigin : " + self.originArr[0], font=("Century Gothic", 11), bg='#e1b800')
         labelOrigin.pack()
-        labelDestination = Label(root, text="\nDestination : " + self.destinationArr[0])
+        labelDestination = Label(root, text="\nDestination : " + self.destinationArr[0], font=("Century Gothic", 11), bg='#e1b800')
         labelDestination.pack()
-        label2 = Label(root, text="\nDistance between 2 points : " + str(self.distance2point))
+        label2 = Label(root, text="\nDistance between 2 points : " + str(self.distance2point), font=("Century Gothic", 11), bg='#e1b800')
         label2.pack()
-        labelTime = Label(root, text="\nTime taken : " + str(self.time2point))
+        labelTime = Label(root, text="\nTime taken : " + str(self.time2point), font=("Century Gothic", 11), bg='#e1b800')
         labelTime.pack()
 
         # CREATE HUB DROPDOWN
-        label3 = Label(root, text="\n\nSELCECT CUSTOMER HUB")
+        label3 = Label(root, text="\n\nSelect Hub", bg='#e1b800', font=("Century Gothic", 12))
         label3.pack()
         # Change the label text
 
@@ -382,19 +377,19 @@ class Window:
         # Create Dropdown menu
         drop1 = OptionMenu(root, clicked1, *self.optionsHub)
         drop1.pack()
-        labelHub1 = Label(root, text="\nHub Name :\t--")
+        labelHub1 = Label(root, text="\nHub Name :\t--", font=("Century Gothic", 11), bg='#e1b800')
         labelHub1.pack()
-        labelHub2 = Label(root, text="\nHub Location :\t--")
+        labelHub2 = Label(root, text="\nHub Location :\t--", font=("Century Gothic", 11), bg='#e1b800')
         labelHub2.pack()
-        labelHub = Label(root, text="\nDistance between 3 points :\t--")
+        labelHub = Label(root, text="\nDistance between 3 points :\t--", font=("Century Gothic", 11), bg='#e1b800')
         labelHub.pack()
-        labelTime2 = Label(root, text="\nTime taken :\t--")
+        labelTime2 = Label(root, text="\nTime taken :\t--", font=("Century Gothic", 11), bg='#e1b800')
         labelTime2.pack()
-        labelFastest = Label(root, text="\nFastest Hub : " + self.optionsHub[self.shortestIndex])
+        labelFastest = Label(root, text="\nFastest Hub : " + self.optionsHub[self.shortestIndex], font=("Century Gothic", 11), bg='#e1b800')
         labelFastest.pack()
 
         # INSERT the HTML file name for each customer
-        b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
+        b = Button(root, text='Open Map', command=self.openHTML(self.customerID), font=("Century Gothic", 11), bg='#e1b800')
         # b.pack(pady=5)
 
         # Execute tkinter

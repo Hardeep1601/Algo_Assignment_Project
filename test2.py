@@ -28,14 +28,45 @@
 # root.geometry("500x500")
 # root.title('Main Window')
 # root.mainloop()
-
+from tkinter import font
 
 from windowPrompt3 import Window
 
 
 w = Window()
-# w.inputCustomer()
+# # w.inputCustomer()
 w.mainWindow()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# import tkinter
+# from tkinter_custom_button import TkinterCustomButton
+#
+# app = tkinter.Tk()
+# app.geometry("300x200")
+# app.title("TkinterCustomButton")
+#
+# # def button_function():
+# #     print("Button pressed")
+# buttonFont = font.Font(family='Century Gothic', size=11)
+# button_1 = TkinterCustomButton(text="My Button", corner_radius=10, text_font=buttonFont)
+# button_1.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
+#
+# app.mainloop()
+
+
 
 # import pyautogui,time
 #
