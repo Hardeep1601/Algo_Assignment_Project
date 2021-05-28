@@ -86,32 +86,50 @@ class parent:
         self.num=a
 
     def plotMap(self):
+        gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
         for i in range(len(self.hub_name)):
-            self.gmap.text(self.hub_coordinate_x[i], self.hub_coordinate_y[i], self.hub_name[i])
-            # gmap.marker(hub_coordinate_x[i], hub_coordinate_y[i], color='cornflowerblue')
+            gmap.text(self.hub_coordinate_x[i], self.hub_coordinate_y[i], self.courier_name[i])
+            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='pink')
 
         self.gmap.scatter(self.hub_coordinate_x, self.hub_coordinate_y, 'red', size=400, marker=True)
-        way=[(self.hub_coordinate_x[self.short], self.hub_coordinate_y[self.short])]
-        self.gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
-        self.dir='cus'+str(self.num)+'.html'
-        self.gmap.draw(self.dir)
+        way = [(self.hub_coordinate_x[self.short], self.hub_coordinate_y[self.short])]
+        gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
+
+        dir = 'cus' + str(self.num) + '.html'
+        gmap.draw(dir)
         print("Success")
 
-    def setHub(self,hub):
-        if hub=='City-link Express':
-            self.hub_Coor=[(self.hub_coordinate_x[0],self.hub_coordinate_y[0])]
+    def allMap(self):
+        for i in range(len(self.hub_name)):
+            way = [(self.hub_coordinate_x[i], self.hub_coordinate_y[i])]
+            self.gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
+            self.dir = 'cus' + str(self.num) + 'all' + '.html'
+            self.gmap.draw(self.dir)
 
-        elif hub==  'Post Laju':
-            self.hub_Coor=[(self.hub_coordinate_x[1],self.hub_coordinate_y[1])]
+    def setHub(self, hub):
+        if hub == 'City-link Express':
+            self.hub_Coor = [(self.hub_coordinate_x[0], self.hub_coordinate_y[0])]
 
-        elif hub=='GDEX':
-            self.hub_Coor=[(self.hub_coordinate_x[2],self.hub_coordinate_y[2])]
+        elif hub == 'Post Laju':
+            self.hub_Coor = [(self.hub_coordinate_x[1], self.hub_coordinate_y[1])]
 
-        elif hub==  'J&T':
-            self.hub_Coor=[(self.hub_coordinate_x[3],self.hub_coordinate_y[3])]
+        elif hub == 'GDEX':
+            self.hub_Coor = [(self.hub_coordinate_x[2], self.hub_coordinate_y[2])]
 
-        elif hub=='DHL':
-            self.hub_Coor=[(self.hub_coordinate_x[4],self.hub_coordinate_y[4])]
+        elif hub == 'J&T':
+            self.hub_Coor = [(self.hub_coordinate_x[3], self.hub_coordinate_y[3])]
+
+        elif hub == 'DHL':
+            self.hub_Coor = [(self.hub_coordinate_x[4], self.hub_coordinate_y[4])]
+
+        gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
+        for i in range(len(self.hub_name)):
+            gmap.text(self.hub_coordinate_x[i], self.hub_coordinate_y[i], self.courier_name[i])
+            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='pink')
+
+        gmap.directions(origin=self.origin, destination=self.des, waypoints=(self.hub_Coor))
+        dir = 'cus' + str(self.num) + '.html'
+        gmap.draw(dir)
 
     def printCoor(self):
         print(self.distance)
