@@ -1,10 +1,8 @@
-import gmaps
 import gmplot
 import googlemaps
-from datetime import datetime
 
 import requests
-import distance
+
 
 class parent:
 
@@ -39,12 +37,6 @@ class parent:
     gmaps = googlemaps.Client(key='AIzaSyDvwt7Hd1CAesuilqcnLB078V5Qy7UwYeY')
     origin = []
     des = []
-
-    def clearArr(self):
-        distance = []
-        journey_time = []
-        origin = []
-        des = []
 
     def __init__(self):
         self.distance = []
@@ -148,51 +140,6 @@ class parent:
 
     def getShort(self):
         return self.short
-
-    # def shortestR(self):
-    #     dup=False
-    #     fastT=self.journey_time[0]
-    #     fastI=0
-    #
-    #     for i in range (1,5,1):
-    #         j=self.journey_time[i]
-    #         if j < fastT:
-    #             fastT=j
-    #             fastI=i
-    #
-    #         elif j==fastT:
-    #             a=self.distance[fastI]
-    #             b=self.distance[i]
-    #             if b<a:
-    #                 fastT=j
-    #                 fastI=i
-    #
-    #
-    #     self.short=fastI
-    #     print('Shortest Hub is : '+self.courier_name[fastI])
-    #     print('The time taken is: '+fastT)
-    #     self.plotMap()
-
-
-
-
-
-
-    # def routeInfo(self):
-    #     # st = ' '.join([str(elem) for elem in self.hub_Coor])
-    #     # print(st)
-    #
-    #     self.hub_Coor=[(3.0319924887507144,101.37344116244806),(3.112924170027219,101.63982650389863),(3.265154613796736,101.68024844550233),(2.9441205329488325,101.7901521759029),(3.2127230893650065,101.57467295692778)]
-    #     for i in range (5):
-    #         directions = self.gmaps.directions(origin=self.origin, waypoints=self.hub_Coor[i], destination=self.des,
-    #                                   mode='driving', optimize_waypoints=True)
-    #         self.distance.append(directions[0]['legs'][0]['distance']['text'])
-    #         self.journey_time.append(directions[0]['legs'][0]['duration']['text'])
-    #
-    #     self.shortestR()
-
-
-# NEW
 
     def shortestR(self):
         dup = False
