@@ -66,7 +66,12 @@ dh = totalPositiveDhl - totalNegativeDhl
 
 courierlist = [ct, pl, gd, jn, dh]
 # print(courierlist)
+# print(max(courierlist))
 def findBestSentiment():
+
+    high=max(courierlist)
+
+
     if ct > pl and ct > gd and ct > jn and ct > dh:
         return print('Citylink has the best sentiment')
     elif pl > ct and pl > gd and pl > jn and pl > dh:
