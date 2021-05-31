@@ -15,7 +15,7 @@ import plotly.graph_objects as go
 import plotly.offline as pyo
 from plotly.offline import init_notebook_mode
 
-
+# 'C:\Users\harde\AppData\Local\Programs\Python\Python39\python.exe -m pip install --upgrade pip' command.
 class p2:
     positive = []
     negative = []

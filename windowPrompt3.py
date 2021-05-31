@@ -3,14 +3,18 @@ import os
 import tkinter as tk
 import webbrowser
 from tkinter import *
+
+# import Prob_3
+from Prob_3 import sentiment
 from calcDirection import parent
 from PIL import ImageTk, Image
+import plotly.graph_objects as go
 
-import imgkit
+# import imgkit
 from tkinter import filedialog, font
 # import main as sentiment
 
-import pdfkit as pdfkit
+# import pdfkit as pdfkit
 
 from tkinter_custom_button import TkinterCustomButton
 
@@ -26,7 +30,9 @@ class Window:
     shortestIndex = 0
     # For hubs
     timeArr = []
+    oritimeArr = []
     distanceArr = []
+    oridistanceArr = []
     # For door to door
     distance2point = 0
     time2point = 0
@@ -113,7 +119,8 @@ class Window:
 
 
         # tk.Label(first, text='State the ID of customer').grid(row=0, column=1)
-        tk.Label(first, text="Input details ", font=("Century Gothic", 11),bg='#2874A6',fg='#ffffff', relief="ridge", width=20, height=1, borderwidth=3 ).grid(row=1, column=1)
+        tk.Label(first, text="Input details ", font=("Century Gothic", 11),bg='#2874A6',fg='#ffffff', relief="ridge",
+                 width=20, height=1, borderwidth=3 ).grid(row=1, column=1)
         # first.config(bg='#e1b800')
         # type box
         # box = tk.Entry(first)
@@ -135,6 +142,14 @@ class Window:
             # hold=box.get()
             # self.numOfCustomer = hold
             self.customerID = 1
+
+            self.originArr.clear()
+            self.destinationArr.clear()
+            self.timeArr.clear()
+            self.distanceArr.clear()
+            self.oritimeArr.clear()
+            self.oridistanceArr.clear()
+
             self.originArr.append(origin.get())
             self.destinationArr.append(dest.get())
             first.destroy()
@@ -171,27 +186,140 @@ class Window:
     from prob2_1 import p2
     from threading import Thread
 
+    # Array = [positive_words, negative_words]
+    totalCityLink = []
+    totalPoslaju = []
+    totalGdex = []
+    totalJnt = []
+    totalDhl = []
 
     def outputSentiment(self):
 
+        # Problem 3 Methods
+        ##############################
+
+        p = sentiment()
+
+        cour = ['City-link Express', 'Pos Laju', 'GDEX', 'J&T', 'DHL']
+
+        # t=parent()
+        # time = t.getJourneyTime()
+        # timeC = t.courier_name.copy()
+        # time = [77, 49, 67, 98, 50]
+        time = self.timeArr
+        timeC = cour.copy()
+        # dis = [74.1, 37.2, 55.6, 95.3, 37.3]
+        dis = self.distanceArr
+        disC = cour.copy()
+        # dis = t.getDistance().copy()
+        # disC = t.courier_name.copy()
+
+        # sent=p2()
+        # pos=sent.positive
+        # pos = [69, 105, 299, 48, 57, 64, 167, 17, 46, 30, 163, 43, 87, 219, 97]
+        # pos = [(pos[0] + pos[1] + pos[2]), (pos[3] + pos[4] + pos[5]), (pos[6] + pos[7] + pos[8]),
+        #        (pos[9] + pos[10] + pos[11]), (pos[12] + pos[13] + pos[14])]
+        pos = [self.totalCityLink[0], self.totalPoslaju[0], self.totalGdex[0], self.totalJnt[0], self.totalDhl[0]]
+        posC = cour.copy()
+
+        # neg=sent.negative
+        # neg = [29, 70, 232, 26, 32, 33, 93, 1, 15, 32, 44, 51, 96, 152, 32]
+        # neg = [(neg[0] + neg[1] + neg[2]), (neg[3] + neg[4] + neg[5]), (neg[6] + neg[7] + neg[8]),
+        #        (neg[9] + neg[10] + neg[11]), (neg[12] + neg[13] + neg[14])]
+        neg = [self.totalCityLink[1], self.totalPoslaju[1], self.totalGdex[1], self.totalJnt[1], self.totalDhl[1]]
+        negC = cour.copy()
+
+        # Sentiment Probability
+        # sentProb = [(pos[0] / (pos[0] + neg[0])), (pos[1] / (pos[1] + neg[1])), (pos[2] / (pos[2] + neg[2])),
+        #             (pos[3] / (pos[3] + neg[3])), (pos[4] / (pos[4] + neg[4]))]
+
+        sentProb = [
+            (self.totalCityLink[0]) / (self.totalCityLink[0]+self.totalCityLink[1]),
+            (self.totalPoslaju[0]) / (self.totalPoslaju[0] + self.totalPoslaju[1]),
+            (self.totalGdex[0]) / (self.totalGdex[0] + self.totalGdex[1]),
+            (self.totalJnt[0]) / (self.totalJnt[0] + self.totalJnt[1]),
+            (self.totalDhl[0]) / (self.totalDhl[0] + self.totalDhl[1]),
+        ]
+        courProb = cour.copy()
+
+        # Final courier and probability
+        finCou = ['City-link Express', 'Pos Laju', 'GDEX', 'J&T', 'DHL']
+        finProb = p.calcProb(sentProb, finCou, time)
+
+        # toString methods
+        sTime = p.timeString(timeC, time)
+        # self.optionsHub = disC
+        sDis = p.disString(disC, dis)
+        sPos = p.sentString(posC, pos)
+        sNeg = p.sentString(negC, neg)
+        sSent = p.sentString(courProb, sentProb)
+        sFin = p.sentString(finCou, finProb)
+
+        # print(pos)
+        # print(neg)
+        print('The Fastest Courier =', sTime)
+        print('The Shortest Route', sDis)
+        print('The courier with positive review: ', sPos)
+        print('The courier with negative review: ', sNeg)
+        print(sSent)
+        print(sFin)
+
+        ##############################
+        # Run 1
+        # The Fastest Courier = Pos Laju ( 49 Minutes ) --> DHL ( 50 Minutes ) --> GDEX ( 1Hour 7 Minutes ) --> City-link Express ( 1Hour 17 Minutes ) --> J&T ( 1Hour 38 Minutes )
+        # The Shortest Route Pos Laju ( 37.2 KM ) --> DHL ( 37.3 KM ) --> GDEX ( 55.6 KM ) --> City-link Express ( 74.1 KM ) --> J&T ( 95.3 KM )
+        # The courier with positive review:  City-link Express ( 473.0000 ) --> DHL ( 403.0000 ) --> J&T ( 236.0000 ) --> GDEX ( 230.0000 ) --> Pos Laju ( 169.0000 )
+        # The courier with negative review:  City-link Express ( 331.0000 ) --> DHL ( 280.0000 ) --> J&T ( 127.0000 ) --> GDEX ( 109.0000 ) --> Pos Laju ( 91.0000 )
+        # GDEX ( 0.6785 ) --> J&T ( 0.6501 ) --> Pos Laju ( 0.6500 ) --> DHL ( 0.5900 ) --> City-link Express ( 0.5883 )
+        # Pos Laju ( 0.5566 ) --> GDEX ( 0.5452 ) --> DHL ( 0.5035 ) --> J&T ( 0.4633 ) --> City-link Express ( 0.4555 )
+
+
+        # Run 2
+
+
+
         first = tk.Tk()
         first.title("Sentiment Details")
-        first.geometry("600x600")
+        first.geometry("1200x600")
         first.config(bg='#e1b800')
 
         # Create Label/String to be attached
         labelID = Label(first, text="\nSummary and Recommended Hub For Customer", font=("Century Gothic", 14), bg='#2874A6',
                         fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
         labelID.pack()
-        label = Label(first, text="\nBest Distance : " + str(self.bestDist) + " km", font=("Century Gothic", 11), bg='#e1b800')
+        # label = Label(first, text="\nBest Distance : " + str(self.bestDist[0]) + " km, "+str(cour[self.bestDist[1]]), font=("Century Gothic", 11), bg='#e1b800')
+        # label.pack()
+        # labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime[0]) + ' min, '+str(cour[self.bestTime[1]]), font=("Century Gothic", 11), bg='#e1b800')
+        # labelOrigin.pack()
+
+        label = Label(first, text='\n\nThe Fastest Courier: '+ sTime+
+                                  '\n\nThe Shortest Route: '+ sDis+
+                                  '\n\nThe courier with positive review: '+ sPos+
+                                  '\n\nThe courier with negative review: '+ sNeg+
+                                  '\n\nThe probability distribution of routes : ' + sSent +
+                                  '\n\nThe recommended courier for customer: '+ sFin,
+                      font=("Century Gothic", 11), bg='#e1b800')
         label.pack()
-        labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime) + ' min', font=("Century Gothic", 11), bg='#e1b800')
-        labelOrigin.pack()
-        labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang', font=("Century Gothic", 11), bg='#e1b800')
-        labelDestination.pack()
-        label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>', font=("Century Gothic", 11), bg='#e1b800')
-        label2.pack()
-        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text',
+        # Route Probability
+
+
+
+        # labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang', font=("Century Gothic", 11), bg='#e1b800')
+        # labelDestination.pack()
+
+
+        # label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>', font=("Century Gothic", 11), bg='#e1b800')
+        # label2.pack()
+
+
+
+        # Summary
+        summaryStr = 'The courier with the best distance is '+ str(cour[self.bestDist[1]]) +'. The courier with the best journey time is '+ str(cour[self.bestTime[1]]) +\
+                     '\nThe courier with the best sentiment is CityLink. Based on all the data obtained, the recommended courier is decided based on 3 aspects, \n' \
+                     'fastest courier, shortest courier and best sentiment analysis ration. Thus, the recommended courier for this customer is sorted in acending \n ' \
+                     'order, from the preffered choice to the least preferred choice.'
+
+        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text\n'+summaryStr,
                           font=("Century Gothic", 11), bg='#e1b800')
         labelTime.pack(pady=10)
 
@@ -209,6 +337,7 @@ class Window:
     def runSentiment(self):
         print('Run sentiment class...')
         self.Thread(target=self.runSentimentCode).start()
+
 
 
     def runSentimentCode(self):
@@ -260,7 +389,17 @@ class Window:
         totalNegativeJnt = neg[9] + neg[10] + neg[11]
         totalNegativeDhl = neg[12] + neg[13] + neg[14]
 
-        import plotly.graph_objects as go
+
+        # Parse values into array
+        self.totalCityLink = [totalPositiveCitylink, totalNegativeCitylink]
+        self.totalPoslaju = [totalPositivePoslaju, totalNegativePoslaju]
+        self.totalGdex = [totalPositiveGdex, totalNegativeGdex]
+        self.totalJnt = [totalPositiveJnt, totalNegativeJnt]
+        self.totalDhl = [totalPositiveDhl, totalNegativeDhl]
+
+
+
+        # import plotly.graph_objects as go
         couriers = ['Citylink', 'Poslaju', 'GDEX', 'Ja&T', 'DHL']
 
         fig = go.Figure(data=[
@@ -306,10 +445,12 @@ class Window:
 
     def smallestVal(self, arr):
         min = arr[0]
+        index = 0
         for i in range(len(arr)):
             if min > arr[i]:
                 min = arr[i]
-        return min
+                index = i
+        return min,index
 
 
     def saveDetails(self, distanceArr, timeArr, shortestIndex, distance2point, time2point):
@@ -318,6 +459,8 @@ class Window:
         self.time2point = time2point
         self.timeArr = timeArr
         self.distanceArr = distanceArr
+        self.oridistanceArr = distanceArr
+        self.oritimeArr = timeArr
 
 
 
@@ -357,10 +500,13 @@ class Window:
         # CREATE HUB DROPDOWN
         label3 = Label(root, text="\n\nSelect Hub", bg='#e1b800', font=("Century Gothic", 12))
         label3.pack()
+        labelFastest = Label(root, text="\nFastest Hub : " + self.optionsHub[self.shortestIndex],
+                             font=("Century Gothic", 11, 'italic'), bg='#e1b800')
+        labelFastest.pack()
         # Change the label text
 
         # Dropdown menu options
-
+        print('Distance Arr: ',self.distanceArr)
 
         # initial menu text
         # clicked1.set('Select a hub')
@@ -368,8 +514,8 @@ class Window:
             getIndex = self.optionsHub.index(clicked1.get())
             labelHub1.config(text="\nHub Name : " + str(self.optionsHub[getIndex]))
             labelHub2.config(text="\nHub Location : " + str(self.optionsLocation[getIndex]))
-            labelHub.config(text="\nDistance between 3 points : " + str(self.distanceArr[getIndex]) + ' km')
-            labelTime2.config(text="\nTime taken : " + str(self.timeArr[getIndex]) + ' min')
+            labelHub.config(text="\nDistance between 3 points : " + str(self.oridistanceArr[getIndex]) + ' km')
+            labelTime2.config(text="\nTime taken : " + str(self.oritimeArr[getIndex]) + ' min')
 
         clicked1 = StringVar(value="Select a hub")
         clicked1.trace("w", showHub)
@@ -385,8 +531,7 @@ class Window:
         labelHub.pack()
         labelTime2 = Label(root, text="\nTime taken :\t--", font=("Century Gothic", 11), bg='#e1b800')
         labelTime2.pack()
-        labelFastest = Label(root, text="\nFastest Hub : " + self.optionsHub[self.shortestIndex], font=("Century Gothic", 11), bg='#e1b800')
-        labelFastest.pack()
+
 
         # INSERT the HTML file name for each customer
         b = Button(root, text='Open Map', command=self.openHTML(self.customerID), font=("Century Gothic", 11), bg='#e1b800')

@@ -77,6 +77,7 @@ class parent:
     def setCustNo(self,a):
         self.num=a
 
+    # Show all 5 routes
     def plotMap(self):
         gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
         for i in range(len(self.hub_name)):
@@ -99,6 +100,7 @@ class parent:
             self.gmap.draw(self.dir)
 
         print("Success")
+
 
     def setHub(self, hub):
         if hub == 'City-link Express':

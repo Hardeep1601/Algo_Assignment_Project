@@ -38,19 +38,6 @@ w = Window()
 w.mainWindow()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # import tkinter
 # from tkinter_custom_button import TkinterCustomButton
 #
