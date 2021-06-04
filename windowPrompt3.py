@@ -157,19 +157,20 @@ class Window:
 
 
             # Calculate the distance after pressing the submit button
-            t = parent()
-            t.setCustNo(self.customerID)
-            t.setOrigin(self.originArr[0])
-            t.setDest(self.destinationArr[0])
-            print(t.getJourneyTime())
-            print(t.getDistance())
+            self.t = parent()
+            # self.t.se
+            self.t.setCustNo(self.customerID)
+            self.t.setOrigin(self.originArr[0])
+            self.t.setDest(self.destinationArr[0])
+            print(self.t.getJourneyTime())
+            print(self.t.getDistance())
             # print('t.getShort() : ', t.getShort())
             # print("Run html to image")
-            self.bestDist = self.smallestVal(t.getDistance())
-            self.bestTime = self.smallestVal(t.getJourneyTime())
+            self.bestDist = self.smallestVal(self.t.getDistance())
+            self.bestTime = self.smallestVal(self.t.getJourneyTime())
             # print("Best distance ",self.bestDist)
             # print("Best time ",self.bestTime)
-            self.saveDetails(t.getDistance(), t.getJourneyTime(), t.getShort(), t.routeDis()[0], t.routeDis()[1])
+            self.saveDetails(self.t.getDistance(), self.t.getJourneyTime(), self.t.getShort(), self.t.routeDis()[0], self.t.routeDis()[1])
 
 
 
@@ -473,10 +474,17 @@ class Window:
     def ouputDistance(self):
         root = tk.Tk()
 
-        # Adjust size
+        # # Adjust size
         root.geometry("600x680")
+
         root.title('Customer Delivery Details')
         root.config(bg='#e1b800')
+        b = Button(root, text="All Map",command=lambda :self.openHTML(2), font=("Century Gothic", 11), bg='#2874A6',
+                    fg='#ffffff')
+        b.place(relx=0.3,rely=0.9)
+        b = Button(root, text="Hub Map",command=lambda :self.openHTML(1), font=("Century Gothic", 11), bg='#2874A6',
+                    fg='#ffffff',  )
+        b.place(relx=0.6, rely=0.9)
 
         header = Label(root, text="\nCustomer Delivery Details", font=("Century Gothic", 14), bg='#2874A6',
                         fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
@@ -506,36 +514,34 @@ class Window:
         # Change the label text
 
         # Dropdown menu options
-        print('Distance Arr: ',self.distanceArr)
-
         # initial menu text
         # clicked1.set('Select a hub')
         def showHub(*args):
-            getIndex = self.optionsHub.index(clicked1.get())
+            getIndex = self.optionsHub.index(variable.get())
+            self.t.setHub(str(self.optionsHub[getIndex]))
             labelHub1.config(text="\nHub Name : " + str(self.optionsHub[getIndex]))
             labelHub2.config(text="\nHub Location : " + str(self.optionsLocation[getIndex]))
             labelHub.config(text="\nDistance between 3 points : " + str(self.oridistanceArr[getIndex]) + ' km')
             labelTime2.config(text="\nTime taken : " + str(self.oritimeArr[getIndex]) + ' min')
 
-        clicked1 = StringVar(value="Select a hub")
-        clicked1.trace("w", showHub)
+        # master = Tk()
+        variable = StringVar(root)
+        variable.set('DHL')
+        variable.trace("w", showHub)
 
         # Create Dropdown menu
-        drop1 = OptionMenu(root, clicked1, *self.optionsHub)
+        drop1 = OptionMenu(root, variable, *self.optionsHub)
         drop1.pack()
-        labelHub1 = Label(root, text="\nHub Name :\t--", font=("Century Gothic", 11), bg='#e1b800')
+        s=self.shortestIndex
+        labelHub1 = Label(root, text="\nHub Name :\t"+str(self.optionsHub[s]), font=("Century Gothic", 11), bg='#e1b800')
         labelHub1.pack()
-        labelHub2 = Label(root, text="\nHub Location :\t--", font=("Century Gothic", 11), bg='#e1b800')
+        labelHub2 = Label(root, text="\nHub Location :\t"+str(self.optionsLocation[s]) , font=("Century Gothic", 11), bg='#e1b800')
         labelHub2.pack()
-        labelHub = Label(root, text="\nDistance between 3 points :\t--", font=("Century Gothic", 11), bg='#e1b800')
+        labelHub = Label(root, text="\nDistance between 3 points :\t"+str(self.oridistanceArr[s]) + ' km', font=("Century Gothic", 11), bg='#e1b800')
         labelHub.pack()
-        labelTime2 = Label(root, text="\nTime taken :\t--", font=("Century Gothic", 11), bg='#e1b800')
+        labelTime2 = Label(root, text="\nTime taken :\t"+ str(self.oritimeArr[s]) + ' min', font=("Century Gothic", 11), bg='#e1b800')
         labelTime2.pack()
 
-
-        # INSERT the HTML file name for each customer
-        b = Button(root, text='Open Map', command=self.openHTML(self.customerID), font=("Century Gothic", 11), bg='#e1b800')
-        # b.pack(pady=5)
 
         # Execute tkinter
         root.mainloop()
@@ -547,9 +553,11 @@ class Window:
     def openHTML(self, num):
         # nameStr = 'C:\Users\harde\Documents\Algo Assignment Project\\' +fileName
         # self.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
-
         # self.threading.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
-        return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html')
+        if num==1:
+            return os.startfile(r'cus1.html')
+        else:
+            return os.startfile(r'cus1all.html')
         # return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 

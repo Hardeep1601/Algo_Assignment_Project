@@ -81,8 +81,8 @@ class parent:
     def plotMap(self):
         gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
         for i in range(len(self.hub_name)):
-            gmap.text(self.hub_coordinate_x[i], self.hub_coordinate_y[i], self.courier_name[i])
-            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='pink')
+            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='yellow')
+            gmap.text((self.hub_coordinate_x[i]+0.01), (self.hub_coordinate_y[i]), self.courier_name[i])
 
         self.gmap.scatter(self.hub_coordinate_x, self.hub_coordinate_y, 'red', size=400, marker=True)
         way = [(self.hub_coordinate_x[self.short], self.hub_coordinate_y[self.short])]
