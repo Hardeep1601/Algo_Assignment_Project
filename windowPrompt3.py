@@ -101,6 +101,12 @@ class Window:
         bt = TkinterCustomButton(text='Sentiment Details', corner_radius=5, command=self.outputSentiment)
         bt.pack(padx=10, pady=10)
 
+        def quitProgram():
+            root.destroy()
+
+        bt = TkinterCustomButton(text='Quit Program', corner_radius=5, command=quitProgram)
+        bt.pack(padx=10, pady=10)
+
         # Button(root, text='Close Newly Opened Window', command=lambda: new_window.destroy()).pack()
 
 
@@ -481,11 +487,13 @@ class Window:
         root.config(bg='#e1b800')
         b = Button(root, text="All Map",command=lambda :self.openHTML(2), font=("Century Gothic", 11), bg='#2874A6',
                     fg='#ffffff')
-        b.place(relx=0.3,rely=0.9)
+        b.place(x=500, y=100)
+        # b.place(relx=0.3,rely=0.9)
         b = Button(root, text="Hub Map",command=lambda :self.openHTML(1), font=("Century Gothic", 11), bg='#2874A6',
                     fg='#ffffff',  )
-        b.place(relx=0.6, rely=0.9)
-
+        b.place(x=30, y=100)
+        # b.pack()
+        # b.place(relx=0.6, rely=0.9)
         header = Label(root, text="\nCustomer Delivery Details", font=("Century Gothic", 14), bg='#2874A6',
                         fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
         header.pack(pady=10)
