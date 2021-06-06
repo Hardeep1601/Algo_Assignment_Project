@@ -1,6 +1,5 @@
 import gmplot
 import googlemaps
-
 import requests
 
 
@@ -22,9 +21,11 @@ class parent:
         'Sungai Buloh'
     ]
 
-    hub_coordinate_x = [  3.0319924887507144,3.112924170027219,3.265154613796736,2.9441205329488325,3.2127230893650065 ]
-    hub_coordinate_y = [ 101.37344116244806,101.63982650389863,101.68024844550233,101.7901521759029,101.57467295692778 ]
-    hub_Coor=[]
+    # hub_coordinate_x = [  3.0319924887507144,3.112924170027219,3.265154613796736,2.9441205329488325,3.2127230893650065 ]
+    # hub_coordinate_y = [ 101.37344116244806,101.63982650389863,101.68024844550233,101.7901521759029,101.57467295692778 ]
+    hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
+                (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
+                (3.2127230893650065, 101.57467295692778)]
 
     distance = []
     journey_time = []
@@ -81,11 +82,10 @@ class parent:
     def plotMap(self):
         gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
         for i in range(len(self.hub_name)):
-            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='yellow')
-            gmap.text((self.hub_coordinate_x[i]+0.01), (self.hub_coordinate_y[i]), self.courier_name[i])
+            gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='yellow')
+            gmap.text(self.hub_Coor[i][0],self.hub_Coor[i][1], self.courier_name[i])
 
-        self.gmap.scatter(self.hub_coordinate_x, self.hub_coordinate_y, 'red', size=400, marker=True)
-        way = [(self.hub_coordinate_x[self.short], self.hub_coordinate_y[self.short])]
+        way = [(self.hub_Coor[self.short])]
         gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
 
         dir = 'cus' + str(self.num) + '.html'
@@ -94,7 +94,9 @@ class parent:
 
     def allMap(self):
         for i in range(len(self.hub_name)):
-            way = [(self.hub_coordinate_x[i], self.hub_coordinate_y[i])]
+            self.gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='yellow')
+            self.gmap.text(self.hub_Coor[i][0],self.hub_Coor[i][1], self.courier_name[i])
+            way = [(self.hub_Coor[i])]
             self.gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
             self.dir = 'cus' + str(self.num) + 'all' + '.html'
             self.gmap.draw(self.dir)
@@ -104,26 +106,26 @@ class parent:
 
     def setHub(self, hub):
         if hub == 'City-link Express':
-            self.hub_Coor = [(self.hub_coordinate_x[0], self.hub_coordinate_y[0])]
+            temp = [(self.hub_Coor[0])]
 
-        elif hub == 'Post Laju':
-            self.hub_Coor = [(self.hub_coordinate_x[1], self.hub_coordinate_y[1])]
+        elif hub == 'Pos Laju':
+            temp = [(self.hub_Coor[1])]
 
         elif hub == 'GDEX':
-            self.hub_Coor = [(self.hub_coordinate_x[2], self.hub_coordinate_y[2])]
+            temp = [(self.hub_Coor[2])]
 
         elif hub == 'J&T':
-            self.hub_Coor = [(self.hub_coordinate_x[3], self.hub_coordinate_y[3])]
+            temp = [(self.hub_Coor[3])]
 
         elif hub == 'DHL':
-            self.hub_Coor = [(self.hub_coordinate_x[4], self.hub_coordinate_y[4])]
+            temp = [(self.hub_Coor[4])]
 
         gmap = gmplot.GoogleMapPlotter(3.112924170027219, 101.63982650389863, 14, apikey=self.apikey)
         for i in range(len(self.hub_name)):
-            gmap.text(self.hub_coordinate_x[i], self.hub_coordinate_y[i], self.courier_name[i])
-            gmap.marker(self.hub_coordinate_x[i], self.hub_coordinate_y[i], color='pink')
+            gmap.text(self.hub_Coor[i][0],self.hub_Coor[i][1], self.courier_name[i])
+            gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='pink')
 
-        gmap.directions(origin=self.origin, destination=self.des, waypoints=(self.hub_Coor))
+        gmap.directions(origin=self.origin, destination=self.des, waypoints=(temp))
         dir = 'cus' + str(self.num) + '.html'
         gmap.draw(dir)
 
@@ -178,10 +180,11 @@ class parent:
 
     def routeInfo(self):
 
-        self.hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
-                         (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
-                         (3.2127230893650065, 101.57467295692778)]
+        # self.hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
+        #                  (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
+        #                  (3.2127230893650065, 101.57467295692778)]
         for i in range(5):
+            print(i)
             directions = self.gmaps.directions(origin=self.origin, destination=self.hub_Coor[i], mode='driving')
             direc = self.gmaps.directions(origin=self.hub_Coor[i], destination=self.des,
                                           mode='driving')
@@ -190,7 +193,6 @@ class parent:
             print(temp)
             self.distance.append(temp[0])
             self.journey_time.append(temp[1])
-            # print(self.distance.)
 
         self.shortestR()
 
@@ -200,7 +202,6 @@ class parent:
         dis = round(float(d1[0]) + float(d2[0]), 2)
         t1 = (a[0]['legs'][0]['duration']['text']).split(' ')
         t2 = (b[0]['legs'][0]['duration']['text']).split(' ')
-        jT = 0;
         if t1[1] == t2[1]:
             if len(t1) == 2:
                 jT = int(t1[0]) + int(t2[0])
