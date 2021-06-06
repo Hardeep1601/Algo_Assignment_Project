@@ -18,11 +18,8 @@ class parent:
         'Petaling Jaya',
         'Batu Caves',
         'Kajang',
-        'Sungai Buloh'
-    ]
+        'Sungai Buloh'    ]
 
-    # hub_coordinate_x = [  3.0319924887507144,3.112924170027219,3.265154613796736,2.9441205329488325,3.2127230893650065 ]
-    # hub_coordinate_y = [ 101.37344116244806,101.63982650389863,101.68024844550233,101.7901521759029,101.57467295692778 ]
     hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
                 (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
                 (3.2127230893650065, 101.57467295692778)]
@@ -101,7 +98,6 @@ class parent:
             self.dir = 'cus' + str(self.num) + 'all' + '.html'
             self.gmap.draw(self.dir)
 
-        print("Success")
 
 
     def setHub(self, hub):
@@ -179,7 +175,6 @@ class parent:
         return (response['rows'][0]['elements'][0]['distance']['text'], response['rows'][0]['elements'][0]['duration']['text'])
 
     def routeInfo(self):
-
 
         for i in range(5):
             print(i)
