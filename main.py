@@ -58,14 +58,21 @@ fig = go.Figure(data=[
 fig.update_layout(barmode='group')
 fig.show()
 
-ct = totalPositiveCitylink - totalNegativeCitylink
-pl = totalPositivePoslaju - totalNegativePoslaju
-gd = totalPositiveGdex - totalNegativeGdex
-jn = totalPositiveJnt - totalNegativeJnt
-dh = totalPositiveDhl - totalNegativeDhl
+# ct = totalPositiveCitylink - totalNegativeCitylink
+# pl = totalPositivePoslaju - totalNegativePoslaju
+# gd = totalPositiveGdex - totalNegativeGdex
+# jn = totalPositiveJnt - totalNegativeJnt
+# dh = totalPositiveDhl - totalNegativeDhl
+
+ct = totalPositiveCitylink / wcCitylink
+pl = totalPositivePoslaju / wcPoslaju
+gd = totalPositiveGdex / wcGdex
+jn = totalPositiveJnt / wcJnt
+dh = totalPositiveDhl / wcDhl
 
 courierlist = [ct, pl, gd, jn, dh]
-# print(courierlist)
+print(courierlist)
+
 def findBestSentiment():
     if ct > pl and ct > gd and ct > jn and ct > dh:
         return print('Citylink has the best sentiment')
@@ -74,7 +81,7 @@ def findBestSentiment():
     elif gd > ct and gd > pl and gd > jn and gd > dh:
         return print('GDEX has the best sentiment')
     elif jn > ct and jn > pl and jn > gd and jn > dh:
-        return print('JandT has the best sentiment')
+        return print('J&T has the best sentiment')
     elif dh > ct and dh > pl and dh > gd and dh > jn:
         return print('DHL has the best sentiment')
 
