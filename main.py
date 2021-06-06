@@ -58,14 +58,18 @@ fig = go.Figure(data=[
 fig.update_layout(barmode='group')
 fig.show()
 
-ct = totalPositiveCitylink - totalNegativeCitylink
-pl = totalPositivePoslaju - totalNegativePoslaju
-gd = totalPositiveGdex - totalNegativeGdex
-jn = totalPositiveJnt - totalNegativeJnt
-dh = totalPositiveDhl - totalNegativeDhl
+ct = (totalPositiveCitylink - totalNegativeCitylink) / wcCitylink
+pl = (totalPositivePoslaju - totalNegativePoslaju) / wcPoslaju
+gd = (totalPositiveGdex - totalNegativeGdex) / wcGdex
+jn = (totalPositiveJnt - totalNegativeJnt) / wcJnt
+dh = (totalPositiveDhl - totalNegativeDhl) / wcDhl
 
 courierlist = [ct, pl, gd, jn, dh]
-print(courierlist)
+print('CityLink has a ratio of ' + '{:.5f}'.format(ct))
+print('Poslaju has a ratio of ' + '{:.5f}'.format(pl))
+print('GDEX has a ratio of ' + '{:.5f}'.format(gd))
+print('J&T has a ratio of ' + '{:.5f}'.format(jn))
+print('DHL has a ratio of ' + '{:.5f}'.format(dh))
 
 def findBestSentiment():
     if ct > pl and ct > gd and ct > jn and ct > dh:
