@@ -58,17 +58,11 @@ fig = go.Figure(data=[
 fig.update_layout(barmode='group')
 fig.show()
 
-# ct = totalPositiveCitylink - totalNegativeCitylink
-# pl = totalPositivePoslaju - totalNegativePoslaju
-# gd = totalPositiveGdex - totalNegativeGdex
-# jn = totalPositiveJnt - totalNegativeJnt
-# dh = totalPositiveDhl - totalNegativeDhl
-
-ct = totalPositiveCitylink / wcCitylink
-pl = totalPositivePoslaju / wcPoslaju
-gd = totalPositiveGdex / wcGdex
-jn = totalPositiveJnt / wcJnt
-dh = totalPositiveDhl / wcDhl
+ct = totalPositiveCitylink - totalNegativeCitylink
+pl = totalPositivePoslaju - totalNegativePoslaju
+gd = totalPositiveGdex - totalNegativeGdex
+jn = totalPositiveJnt - totalNegativeJnt
+dh = totalPositiveDhl - totalNegativeDhl
 
 courierlist = [ct, pl, gd, jn, dh]
 print(courierlist)
