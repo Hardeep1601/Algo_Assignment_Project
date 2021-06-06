@@ -147,19 +147,19 @@ class parent:
 
     def shortestR(self):
         dup = False
-        fastT = self.journey_time[0]
+        fastT = self.distance[0]
         fastI = 0
 
         for i in range(1, 5, 1):
-            j = self.journey_time[i]
+            j = self.distance[i]
             # print(type(j))
             if j < fastT:
                 fastT = j
                 fastI = i
 
             elif j == fastT:
-                a = self.distance[fastI]
-                b = self.distance[i]
+                a = self.journey_time[fastI]
+                b = self.journey_time[i]
 
                 if b < a:
                     fastT = j
@@ -167,7 +167,7 @@ class parent:
 
         self.short = fastI
         print('Shortest Hub is : ' + self.courier_name[fastI])
-        print('The time taken is: ' + str(fastT))
+        print('The Distance is: ' + str(fastT))
         self.plotMap()
 
     def routeDis(self):
@@ -180,9 +180,7 @@ class parent:
 
     def routeInfo(self):
 
-        # self.hub_Coor = [(3.0319924887507144, 101.37344116244806), (3.112924170027219, 101.63982650389863),
-        #                  (3.265154613796736, 101.68024844550233), (2.9441205329488325, 101.7901521759029),
-        #                  (3.2127230893650065, 101.57467295692778)]
+
         for i in range(5):
             print(i)
             directions = self.gmaps.directions(origin=self.origin, destination=self.hub_Coor[i], mode='driving')
