@@ -48,7 +48,7 @@ totalNegativeJnt = neg[9] + neg[10] + neg[11]
 totalNegativeDhl = neg[12] + neg[13] + neg[14]
 
 import plotly.graph_objects as go
-couriers=['Citylink', 'Poslaju', 'GDEX', 'Ja&T', 'DHL']
+couriers=['Citylink', 'Poslaju', 'GDEX', 'J&T', 'DHL']
 
 fig = go.Figure(data=[
     go.Bar(name='Positive words', x=couriers, y=[totalPositiveCitylink, totalPositivePoslaju, totalPositiveGdex, totalPositiveJnt, totalPositiveDhl]),
