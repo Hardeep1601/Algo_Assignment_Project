@@ -82,7 +82,7 @@ class Window:
         label1.place(x=0, y=0)
 
 
-        lbl = Label(new_window, text='Customer Delivery App', font = ("Century Gothic", 15,'bold'), bg='#2874A6',
+        lbl = Label(new_window, text='Courier Choice Selector App', font = ("Century Gothic", 15,'bold'), bg='#2874A6',
                     fg='#ffffff', relief="ridge", width=100, height=5, borderwidth=5)
         lbl.pack(padx=10, pady=50)
 
