@@ -71,6 +71,8 @@ print('GDEX has a ratio of ' + '{:.5f}'.format(gd))
 print('J&T has a ratio of ' + '{:.5f}'.format(jn))
 print('DHL has a ratio of ' + '{:.5f}'.format(dh))
 
+print(courierlist)
+
 def findBestSentiment():
     if ct > pl and ct > gd and ct > jn and ct > dh:
         return print('Citylink has the best sentiment')

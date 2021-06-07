@@ -206,84 +206,28 @@ class Window:
         ##############################
 
         p = sentiment()
-
         cour = ['City-link Express', 'Pos Laju', 'GDEX', 'J&T', 'DHL']
 
-        # t=parent()
-        # time = t.getJourneyTime()
-        # timeC = t.courier_name.copy()
-        # time = [77, 49, 67, 98, 50]
         time = self.timeArr
         timeC = cour.copy()
-        # dis = [74.1, 37.2, 55.6, 95.3, 37.3]
         dis = self.distanceArr
         disC = cour.copy()
-        # dis = t.getDistance().copy()
-        # disC = t.courier_name.copy()
 
-        # sent=p2()
-        # pos=sent.positive
-        # pos = [69, 105, 299, 48, 57, 64, 167, 17, 46, 30, 163, 43, 87, 219, 97]
-        # pos = [(pos[0] + pos[1] + pos[2]), (pos[3] + pos[4] + pos[5]), (pos[6] + pos[7] + pos[8]),
-        #        (pos[9] + pos[10] + pos[11]), (pos[12] + pos[13] + pos[14])]
-        pos = [self.totalCityLink[0], self.totalPoslaju[0], self.totalGdex[0], self.totalJnt[0], self.totalDhl[0]]
-        posC = cour.copy()
+        courSent=cour.copy()
+        sentProb=self.sentAnalysis
 
-        # neg=sent.negative
-        # neg = [29, 70, 232, 26, 32, 33, 93, 1, 15, 32, 44, 51, 96, 152, 32]
-        # neg = [(neg[0] + neg[1] + neg[2]), (neg[3] + neg[4] + neg[5]), (neg[6] + neg[7] + neg[8]),
-        #        (neg[9] + neg[10] + neg[11]), (neg[12] + neg[13] + neg[14])]
-        neg = [self.totalCityLink[1], self.totalPoslaju[1], self.totalGdex[1], self.totalJnt[1], self.totalDhl[1]]
-        negC = cour.copy()
-
-        # Sentiment Probability
-        # sentProb = [(pos[0] / (pos[0] + neg[0])), (pos[1] / (pos[1] + neg[1])), (pos[2] / (pos[2] + neg[2])),
-        #             (pos[3] / (pos[3] + neg[3])), (pos[4] / (pos[4] + neg[4]))]
-
-        sentProb = [
-            (self.totalCityLink[0]) / (self.totalCityLink[0]+self.totalCityLink[1]),
-            (self.totalPoslaju[0]) / (self.totalPoslaju[0] + self.totalPoslaju[1]),
-            (self.totalGdex[0]) / (self.totalGdex[0] + self.totalGdex[1]),
-            (self.totalJnt[0]) / (self.totalJnt[0] + self.totalJnt[1]),
-            (self.totalDhl[0]) / (self.totalDhl[0] + self.totalDhl[1]),
-        ]
-        courProb = cour.copy()
-
-        # Final courier and probability
         finCou = ['City-link Express', 'Pos Laju', 'GDEX', 'J&T', 'DHL']
         finProb = p.calcProb(sentProb, finCou, time)
 
         # toString methods
         sTime = p.timeString(timeC, time)
-        # self.optionsHub = disC
         sDis = p.disString(disC, dis)
-        sPos = p.sentString(posC, pos)
-        sNeg = p.sentString(negC, neg)
-        sSent = p.sentString(courProb, sentProb)
+
+        sAnalys=p.sentString(courSent,sentProb)
         sFin = p.sentString(finCou, finProb)
 
-        # print(pos)
-        # print(neg)
-        print('The Fastest Courier =', sTime)
-        print('The Shortest Route', sDis)
-        print('The courier with positive review: ', sPos)
-        print('The courier with negative review: ', sNeg)
-        print(sSent)
-        print(sFin)
-
-        ##############################
-        # Run 1
-        # The Fastest Courier = Pos Laju ( 49 Minutes ) --> DHL ( 50 Minutes ) --> GDEX ( 1Hour 7 Minutes ) --> City-link Express ( 1Hour 17 Minutes ) --> J&T ( 1Hour 38 Minutes )
-        # The Shortest Route Pos Laju ( 37.2 KM ) --> DHL ( 37.3 KM ) --> GDEX ( 55.6 KM ) --> City-link Express ( 74.1 KM ) --> J&T ( 95.3 KM )
-        # The courier with positive review:  City-link Express ( 473.0000 ) --> DHL ( 403.0000 ) --> J&T ( 236.0000 ) --> GDEX ( 230.0000 ) --> Pos Laju ( 169.0000 )
-        # The courier with negative review:  City-link Express ( 331.0000 ) --> DHL ( 280.0000 ) --> J&T ( 127.0000 ) --> GDEX ( 109.0000 ) --> Pos Laju ( 91.0000 )
-        # GDEX ( 0.6785 ) --> J&T ( 0.6501 ) --> Pos Laju ( 0.6500 ) --> DHL ( 0.5900 ) --> City-link Express ( 0.5883 )
-        # Pos Laju ( 0.5566 ) --> GDEX ( 0.5452 ) --> DHL ( 0.5035 ) --> J&T ( 0.4633 ) --> City-link Express ( 0.4555 )
-
-
-        # Run 2
-
-
+        temp=finCou[0]
+        best=[time[timeC.index(temp)],dis[disC.index(temp)],sentProb[courSent.index(temp)]]
 
         first = tk.Tk()
         first.title("Sentiment Details")
@@ -294,39 +238,23 @@ class Window:
         labelID = Label(first, text="\nSummary and Recommended Hub For Customer", font=("Century Gothic", 14), bg='#2874A6',
                         fg='#ffffff', relief="ridge", width=50, height=3, borderwidth=3)
         labelID.pack()
-        # label = Label(first, text="\nBest Distance : " + str(self.bestDist[0]) + " km, "+str(cour[self.bestDist[1]]), font=("Century Gothic", 11), bg='#e1b800')
-        # label.pack()
-        # labelOrigin = Label(first, text="\nBest Journey Time : " + str(self.bestTime[0]) + ' min, '+str(cour[self.bestTime[1]]), font=("Century Gothic", 11), bg='#e1b800')
-        # labelOrigin.pack()
 
         label = Label(first, text='\n\nThe Fastest Courier: '+ sTime+
                                   '\n\nThe Shortest Route: '+ sDis+
-                                  '\n\nThe courier with positive review: '+ sPos+
-                                  '\n\nThe courier with negative review: '+ sNeg+
-                                  '\n\nThe probability distribution of routes : ' + sSent +
+
+                                  '\n\nThe courier with the best sentiment : ' + sAnalys +
                                   '\n\nThe recommended courier for customer: '+ sFin,
                       font=("Century Gothic", 11), bg='#e1b800')
         label.pack()
-        # Route Probability
-
-
-
-        # labelDestination = Label(first, text="\nBest Sentiment : "+ ' CityLink ' + ', Port Klang', font=("Century Gothic", 11), bg='#e1b800')
-        # labelDestination.pack()
-
-
-        # label2 = Label(first, text="\nRecommended Courier : " + '<route taken based on hub>', font=("Century Gothic", 11), bg='#e1b800')
-        # label2.pack()
-
-
 
         # Summary
-        summaryStr = 'The courier with the best distance is '+ str(cour[self.bestDist[1]]) +'. The courier with the best journey time is '+ str(cour[self.bestTime[1]]) +\
-                     '\nThe courier with the best sentiment is CityLink. Based on all the data obtained, the recommended courier is decided based on 3 aspects, \n' \
-                     'fastest courier, shortest courier and best sentiment analysis ration. Thus, the recommended courier for this customer is sorted in acending \n ' \
-                     'order, from the preffered choice to the least preferred choice.'
+        summaryStr = 'The courier with the best distance is '+ str(disC[0]) +' with a distance of '+str(dis[0])+'. The courier with the best journey time is '+ str(timeC[0]) +\
+                     '\nThe courier with the best sentiment is '+str(courSent[0])+' while the courier with the worst sentiment is '+str(courSent[4])+'.'+\
+                     '\n The courier with the longest distance is '+disC[4]+' and the courier with the longest delivery time is '+timeC[4]+'.'+\
+                     '\n\n Based on all the data obtained, the recommended courier is '+str(finCou[0])+'. The '+temp+' hub has a delivery time ' +\
+                     '\n of '+str(best[0])+' with a distance of '+str(best[1])+'. It also has a sentiment analysis of '+str("{:.4f}".format(best[2]))
 
-        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+'Sample text\n'+summaryStr,
+        labelTime = Label(first, text="\n---------------------------\nSummary\n---------------------------\n\n"+summaryStr,
                           font=("Century Gothic", 11), bg='#e1b800')
         labelTime.pack(pady=10)
 
@@ -421,28 +349,28 @@ class Window:
         fig.update_layout(barmode='group')
         fig.show()
 
-        ct = totalPositiveCitylink - totalNegativeCitylink
-        pl = totalPositivePoslaju - totalNegativePoslaju
-        gd = totalPositiveGdex - totalNegativeGdex
-        jn = totalPositiveJnt - totalNegativeJnt
-        dh = totalPositiveDhl - totalNegativeDhl
+        ct = (totalPositiveCitylink - totalNegativeCitylink) / wcCitylink
+        pl = (totalPositivePoslaju - totalNegativePoslaju) / wcPoslaju
+        gd = (totalPositiveGdex - totalNegativeGdex) / wcGdex
+        jn = (totalPositiveJnt - totalNegativeJnt) / wcJnt
+        dh = (totalPositiveDhl - totalNegativeDhl) / wcDhl
 
-        courierlist = [ct, pl, gd, jn, dh]
+        self.sentAnalysis = [ct*10, pl*10, gd*10, jn*10, dh*10]
 
         # print(courierlist)
-        def findBestSentiment():
-            if ct > pl and ct > gd and ct > jn and ct > dh:
-                return print('Citylink has the best sentiment')
-            elif pl > ct and pl > gd and pl > jn and pl > dh:
-                return print('Poslaju has the best sentiment')
-            elif gd > ct and gd > pl and gd > jn and gd > dh:
-                return print('GDEX has the best sentiment')
-            elif jn > ct and jn > pl and jn > gd and jn > dh:
-                return print('JandT has the best sentiment')
-            elif dh > ct and dh > pl and dh > gd and dh > jn:
-                return print('DHL has the best sentiment')
-
-        findBestSentiment()
+        # def findBestSentiment():
+        #     if ct > pl and ct > gd and ct > jn and ct > dh:
+        #         return print('Citylink has the best sentiment')
+        #     elif pl > ct and pl > gd and pl > jn and pl > dh:
+        #         return print('Poslaju has the best sentiment')
+        #     elif gd > ct and gd > pl and gd > jn and gd > dh:
+        #         return print('GDEX has the best sentiment')
+        #     elif jn > ct and jn > pl and jn > gd and jn > dh:
+        #         return print('JandT has the best sentiment')
+        #     elif dh > ct and dh > pl and dh > gd and dh > jn:
+        #         return print('DHL has the best sentiment')
+        #
+        # findBestSentiment()
 
 
 

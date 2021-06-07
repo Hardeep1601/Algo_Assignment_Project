@@ -97,7 +97,6 @@ class sentiment:
         high=sum(b)
         for i in range(len(cour)) :
             z= (b[i])/high
-            # print(z)
             temp.append((a[i])*(1-z))
         self.insertionSortRev(temp,cour)
 
@@ -124,7 +123,7 @@ class sentiment:
 # # dis = t.getDistance().copy()
 # # disC = t.courier_name.copy()
 #
-#
+#  [0.03450825733300468, 0.059353869271224644, 0.05422993492407809, 0.05698630136986301, 0.047337278106508875]
 # # sent=p2()
 # # pos=sent.positive
 # pos=[69, 105, 299, 48, 57, 64, 167, 17, 46, 30, 163, 43, 87, 219, 97]
