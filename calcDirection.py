@@ -91,7 +91,11 @@ class parent:
 
     def allMap(self):
         for i in range(len(self.hub_name)):
-            self.gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='yellow')
+            if i==self.short:
+                self.gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='purple')
+            else:
+                self.gmap.marker(self.hub_Coor[i][0],self.hub_Coor[i][1], color='yellow')
+
             self.gmap.text(self.hub_Coor[i][0],self.hub_Coor[i][1], self.courier_name[i])
             way = [(self.hub_Coor[i])]
             self.gmap.directions(origin=self.origin, destination=self.des, waypoints=(way))
@@ -177,13 +181,11 @@ class parent:
     def routeInfo(self):
 
         for i in range(5):
-            print(i)
             directions = self.gmaps.directions(origin=self.origin, destination=self.hub_Coor[i], mode='driving')
             direc = self.gmaps.directions(origin=self.hub_Coor[i], destination=self.des,
                                           mode='driving')
 
             temp = self.process(directions, direc)
-            print(temp)
             self.distance.append(temp[0])
             self.journey_time.append(temp[1])
 
