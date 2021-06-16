@@ -1,21 +1,11 @@
 import codecs
 import os
 import tkinter as tk
-import webbrowser
 from tkinter import *
 
-# import Prob_3
 from Prob_3 import sentiment
 from calcDirection import parent
 from PIL import ImageTk, Image
-import plotly.graph_objects as go
-
-# import imgkit
-from tkinter import filedialog, font
-# import main as sentiment
-
-# import pdfkit as pdfkit
-
 from tkinter_custom_button import TkinterCustomButton
 
 
@@ -85,17 +75,10 @@ class Window:
         lbl = Label(new_window, text='Courier Choice Selector App', font = ("Century Gothic", 15,'bold'), bg='#2874A6',
                     fg='#ffffff', relief="ridge", width=100, height=5, borderwidth=5)
         lbl.pack(padx=10, pady=50)
-
-
         bt = TkinterCustomButton(text='Enter new customer', corner_radius=5, command=self.inputCustomer)
-        # bt.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
         bt.pack(padx=10, pady=10)
-
         bt = TkinterCustomButton(text='Distance Details', corner_radius=5, command=self.ouputDistance)
         bt.pack(padx=10, pady=10)
-        # INSERT the HTML file name for each customer
-        # b = Button(root, text='Open Map', command=self.openHTML(self.customerID))
-        # b.pack(padx=10, pady=10)
         bt = TkinterCustomButton(text='Start sentiment code', corner_radius=5, command=self.runSentiment)
         bt.pack(padx=10, pady=10)
         bt = TkinterCustomButton(text='Sentiment Details', corner_radius=5, command=self.outputSentiment)
@@ -107,12 +90,6 @@ class Window:
         bt = TkinterCustomButton(text='Quit Program', corner_radius=5, command=quitProgram)
         bt.pack(padx=10, pady=10)
 
-        # Button(root, text='Close Newly Opened Window', command=lambda: new_window.destroy()).pack()
-
-
-
-
-
         root.mainloop()
 
 
@@ -121,7 +98,6 @@ class Window:
         first = tk.Tk()
         first.title("Customer Details")
         first.config(bg='#e1b800')
-        # buttonFont = font.Font(family='Century Gothic', size=11)
 
 
         # tk.Label(first, text='State the ID of customer').grid(row=0, column=1)
@@ -145,8 +121,6 @@ class Window:
         # STORE CUSTOMER ID AND FILE INFO
 
         def saveCustNum():
-            # hold=box.get()
-            # self.numOfCustomer = hold
             self.customerID = 1
 
             self.originArr.clear()
@@ -164,24 +138,21 @@ class Window:
 
             # Calculate the distance after pressing the submit button
             self.t = parent()
-            # self.t.se
             self.t.setCustNo(self.customerID)
             self.t.setOrigin(self.originArr[0])
             self.t.setDest(self.destinationArr[0])
             print(self.t.getJourneyTime())
             print(self.t.getDistance())
-            # print('t.getShort() : ', t.getShort())
-            # print("Run html to image")
             self.bestDist = self.smallestVal(self.t.getDistance())
             self.bestTime = self.smallestVal(self.t.getJourneyTime())
-            # print("Best distance ",self.bestDist)
-            # print("Best time ",self.bestTime)
-            self.saveDetails(self.t.getDistance(), self.t.getJourneyTime(), self.t.getShort(), self.t.routeDis()[0], self.t.routeDis()[1])
+            self.saveDetails(self.t.getDistance(), self.t.getJourneyTime(), self.t.getShort(), self.t.routeDis()[0],
+                             self.t.routeDis()[1])
 
 
 
         # button widget
-        b1 = Button(first, text="Submit", command=saveCustNum, bg='#2874A6', fg='#ffffff', font=("Century Gothic", 11) ).grid(row=4, column=1, sticky=E)
+        b1 = Button(first, text="Submit", command=saveCustNum, bg='#2874A6', fg='#ffffff', font=("Century Gothic", 11))\
+            .grid(row=4, column=1, sticky=E)
 
         first.mainloop()
 
@@ -248,7 +219,8 @@ class Window:
         label.pack()
 
         # Summary
-        summaryStr = 'The courier with the best distance is '+ str(disC[0]) +' with a distance of '+str(dis[0])+'. The courier with the best journey time is '+ str(timeC[0]) +\
+        summaryStr = 'The courier with the best distance is '+ str(disC[0]) +' with a distance of '+str(dis[0])+'. The courier with the best journey time is '\
+                     + str(timeC[0]) +\
                      '\nThe courier with the best sentiment is '+str(courSent[0])+' while the courier with the worst sentiment is '+str(courSent[4])+'.'+\
                      '\n The courier with the longest distance is '+disC[4]+' and the courier with the longest delivery time is '+timeC[4]+'.'+\
                      '\n\n Based on all the data obtained, the recommended courier is '+str(finCou[0])+'. The '+temp+' hub has a delivery time ' +\
@@ -331,8 +303,6 @@ class Window:
         self.totalGdex = [totalPositiveGdex, totalNegativeGdex]
         self.totalJnt = [totalPositiveJnt, totalNegativeJnt]
         self.totalDhl = [totalPositiveDhl, totalNegativeDhl]
-
-
 
         # import plotly.graph_objects as go
         couriers = ['Citylink', 'Poslaju', 'GDEX', 'Ja&T', 'DHL']
@@ -487,14 +457,10 @@ class Window:
     import time
 
     def openHTML(self, num):
-        # nameStr = 'C:\Users\harde\Documents\Algo Assignment Project\\' +fileName
-        # self.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
-        # self.threading.Thread(target=(webbrowser.open_new_tab(r'C:\Users\harde\Documents\Algo Assignment Project\cus1.html'))).start()
         if num==1:
             return os.startfile(r'cus1.html')
         else:
             return os.startfile(r'cus1all.html')
-        # return os.startfile(r'C:\Users\harde\Documents\Algo Assignment Project\map.html')
 
 
 

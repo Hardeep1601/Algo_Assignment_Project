@@ -1,19 +1,10 @@
 # modules
 from bs4 import BeautifulSoup
 import requests
-import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-# nltk.download('punkt')
-# nltk.download('stopwords')
 
 
-# imports for scatter plots
-import numpy as np
-import plotly
-import plotly.graph_objects as go
-import plotly.offline as pyo
-from plotly.offline import init_notebook_mode
 
 # 'C:\Users\harde\AppData\Local\Programs\Python\Python39\python.exe -m pip install --upgrade pip' command.
 class p2:
@@ -30,7 +21,8 @@ class p2:
         # citylink, poslaju, gdex, j&t, dhl
         urls = [
             [
-                'https://www.truckandbusnews.net/latest-news/posts/2018/november/city-link-express-aims-for-fast-delivery-and-customer-satisfaction-with-isuzu/',
+                'https://www.truckandbusnews.net/latest-news/posts/2018/november/city-link-express-aims-for-fast-delivery-and-'
+                'customer-satisfaction-with-isuzu/',
                 'https://themalaysianreserve.com/2020/05/28/courier-service-a-lifeline-in-time-of-enforced-isolation/',
                 'https://www.theedgemarkets.com/article/crossing-borders-and-boundaries',
             ],
@@ -45,7 +37,8 @@ class p2:
                 'https://www.thestar.com.my/news/nation/2021/01/29/couriers-and-postmen-should-also-get-vaccination-priority',
             ],
             [
-                'https://www.malaymail.com/news/malaysia/2021/02/07/courier-company-jt-express-explains-staffs-violent-handling-of-parcels-caug/1947791',
+                'https://www.malaymail.com/news/malaysia/2021/02/07/courier-company-jt-express-explains-staffs-violent-handling-'
+                'of-parcels-caug/1947791',
                 'https://www.thestar.com.my/news/nation/2019/11/10/jt-express-anticipates-promising-1111-big-sale',
                 'https://hype.my/2021/212126/jt-express-courier-truck-has-only-a-few-items-to-deliver-following-bad-publicity/',
             ],
