@@ -1,7 +1,7 @@
 # Algo_Assignment_Project
 
 -------------------------------------------------------------------
-                    Courier Choice Selector App          
+                                                                      Courier Choice Selector App          
 -------------------------------------------------------------------
 
 
