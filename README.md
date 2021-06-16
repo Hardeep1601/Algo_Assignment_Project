@@ -1,9 +1,8 @@
 # Algo_Assignment_Project
-Algorithm Group Project
 
-###############################################
-          Courier Choice Selector App          
-###############################################
+-------------------------------------------------------------------
+                    Courier Choice Selector App          
+-------------------------------------------------------------------
 
 
 To run the program, run the main.py file. The Courier Choice Selector App will launch.
