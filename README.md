@@ -2,9 +2,7 @@
 Algorithm Group Project
 
 ###############################################
-
-          Courier Choice Selector App
-          
+          Courier Choice Selector App          
 ###############################################
 
 
