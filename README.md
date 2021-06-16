@@ -2,11 +2,11 @@
 Algorithm Group Project
 
 ###############################################
-          Courier Choice Delivery App
+          Courier Choice Selector App
 ###############################################
 
 
-To run the program, run the main.py file. The Courier Choice Delivery App will launch.
+To run the program, run the main.py file. The Courier Choice Selector App will launch.
 
 The app functions to . 
 
